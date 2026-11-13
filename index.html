@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ra lệnh rõ – Kiểm chứng giỏi · Tech Club Tuần 2</title>
+<style>
+:root{--bg:#130d26;--card:#241a52;--card2:#170f3a;--ink:#f3eefc;--mut:#b7a9e6;--gold:#f2c94c;--ok:#5ef2a0;--bad:#ff6b8a;--sky:#59b8ff;--pix:"VT323","Consolas","Courier New",monospace;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;color:var(--ink);font-family:var(--pix);font-size:19px;line-height:1.35}
+html{background:#130d26}body{background:radial-gradient(ellipse 1400px 900px at top,#2a1c5c 0,#130d26 70%) no-repeat #130d26;min-height:100vh}
+#crt{position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.42) 100%)}
+header{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(19,13,38,.95);border-bottom:4px solid #000}
+.logo{width:38px;height:38px;border-radius:50%;background:#14306e;display:grid;align-content:center;gap:4px;padding:0 9px;border:3px solid #000;flex:none}
+.logo i{display:block;height:4px}
+header h1{margin:0;font-size:25px;color:var(--gold);text-shadow:3px 3px 0 #000;flex:1;min-width:0}
+header h1 small{display:block;font-size:14px;color:var(--mut);text-shadow:none;font-weight:400}
+.hud{background:var(--card);border:3px solid #000;box-shadow:3px 3px 0 #000;padding:3px 10px;white-space:nowrap;font-size:16px}
+header button{font-size:15px;padding:4px 10px}
+main{max-width:1080px;margin:0 auto;padding:18px 16px 60px}
+.card{background:var(--card);border:4px solid #000;box-shadow:6px 6px 0 #000;padding:16px 18px;margin-bottom:18px}
+.card.gold{border-color:var(--gold)}
+h2{margin:0 0 8px;font-size:28px;color:#fff;text-shadow:2px 2px 0 #000}
+h3{margin:14px 0 6px;font-size:21px;color:var(--gold)}
+.tag{color:var(--gold);font-size:16px;letter-spacing:.5px}
+.mut{color:var(--mut)}.good{color:var(--ok)}.bad{color:var(--bad)}
+p{margin:6px 0 10px}
+ul,ol{margin:4px 0 10px;padding-left:24px}
+button{font:inherit;font-weight:700;color:#1a1033;background:var(--gold);border:3px solid #000;box-shadow:3px 3px 0 #000;padding:8px 14px;cursor:pointer}
+button:hover:not(:disabled){filter:brightness(1.12);transform:translate(-1px,-1px)}
+button:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #fff;outline-offset:2px}
+button.ghost{background:var(--card2);color:var(--ink)}
+button.sky{background:var(--sky)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}}
+canvas.pix{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;border:4px solid #000;background:#000;box-shadow:4px 4px 0 #000}
+.cap{font-size:16px;color:var(--mut);margin:6px 0 0;text-align:center}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.menu{grid-template-columns:1fr}}
+.menu button{text-align:left;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.menu button b{font-size:23px}.menu button span{font-weight:400;font-size:16px}
+.opt{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 12px}
+.opt button{padding:6px 12px;background:var(--card2);color:var(--ink)}
+.opt button.on{background:var(--gold);color:#1a1033}
+input[type=text],textarea{font:inherit;font-weight:400;width:100%;background:#0f0a24;color:var(--ink);border:3px solid #000;padding:10px 12px}
+textarea{min-height:110px;resize:vertical;font-size:22px}
+table{width:100%;border-collapse:collapse;font-size:17px;margin:8px 0}
+th,td{border:2px solid #000;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--card2);color:var(--gold);font-weight:400}
+td.ok{color:var(--ok)}td.bad{color:var(--bad)}td.unclear{color:#ffb86b}td.guess{color:var(--sky)}
+.score{font-size:30px;color:#fff;text-shadow:2px 2px 0 #000;margin:12px 0 8px}
+.stars{color:var(--gold);letter-spacing:3px}
+.crow{display:grid;grid-template-columns:140px 1fr;gap:8px;align-items:center;padding:6px 0;border-bottom:2px dashed rgba(183,169,230,.22)}
+@media(max-width:600px){.crow{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-weight:400;padding:4px 10px;background:var(--card2);color:var(--ink);font-size:17px;display:inline-flex;align-items:center;gap:6px;box-shadow:2px 2px 0 #000}
+.chip.on{background:var(--gold);color:#1a1033;font-weight:700}
+.sw{display:inline-block;width:15px;height:15px;border:2px solid #000}
+.prompt{background:#0f0a24;border:3px dashed var(--gold);padding:10px 12px;font-size:21px;word-break:break-word;margin:8px 0}
+.meter{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;margin:6px 0}
+.meter .bar{height:20px;background:#0f0a24;border:3px solid #000;position:relative}
+.meter .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--sky)}
+.meter .bar.best i{background:var(--ok)}
+.teams{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:10px;margin-bottom:14px}
+@media(max-width:600px){.teams{grid-template-columns:1fr 1fr}}
+.team{border:4px solid #000;box-shadow:4px 4px 0 #000;padding:8px 10px;color:#1a1033;text-align:center}
+.team b{display:block;font-size:20px}.team .pts{font-size:40px;line-height:1;font-weight:700}.team small{font-size:14px}
+.team.act{outline:5px solid #fff;outline-offset:2px;animation:pulse .7s steps(2) infinite}
+.team.out{opacity:.35}
+@keyframes pulse{50%{outline-color:transparent}}
+.stage{display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:center}
+@media(max-width:700px){.stage{grid-template-columns:1fr}}
+.speech{background:#fff;color:#141414;border:4px solid #000;box-shadow:5px 5px 0 #000;padding:14px 18px;font-size:30px;line-height:1.25;position:relative;min-height:3.4em}
+.speech:before{content:"";position:absolute;left:-22px;top:28px;border:10px solid transparent;border-right:12px solid #000}
+.big{font-size:90px;line-height:1.1;text-align:center}
+.verdict{font-size:40px;text-shadow:3px 3px 0 #000;margin:6px 0}
+.method{display:inline-block;background:var(--sky);color:#1a1033;border:3px solid #000;padding:3px 10px;font-weight:700}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tf button{font-size:36px;text-align:center;padding:16px}
+.tf .t{background:var(--ok)}.tf .f{background:var(--bad)}
+.hint{background:#fff7d6;color:#3a2a00;border:4px solid #000;padding:10px 14px;margin-top:12px;font-size:22px}
+.kbd{display:inline-block;background:#000;color:#fff;padding:0 6px;border:2px solid #fff;font-size:15px;margin-right:6px;vertical-align:middle}
+.ans{background:var(--card2);border:3px solid #000;padding:12px 14px;margin-top:10px}
+#modal{position:fixed;inset:0;z-index:60;background:rgba(5,3,15,.82);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:30px 14px}
+#modal[hidden]{display:none}
+#modal .card{max-width:880px;width:100%}
+.hide{visibility:hidden}
+.shake{animation:sh .4s steps(4)}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pop{animation:pop .35s steps(4)}@keyframes pop{from{transform:scale(.94)}}
+.bob{animation:bob 1.2s steps(2) infinite}@keyframes bob{50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){.shake,.pop,.bob,.team.act{animation:none}}
+@media(max-width:700px){header{flex-wrap:wrap;gap:8px}header h1{font-size:19px;flex:1 1 60%}header h1 small{display:none}.hud{font-size:13px;order:3;flex-basis:100%;text-align:center}.speech{font-size:22px}.big{font-size:64px}.tf button{font-size:26px}}
+#bot{max-width:130px}
+</style>
+</head>
+<body>
+<div id="crt"></div>
+<header>
+ <div class="logo"><i style="background:#5ef2a0"></i><i style="background:#f2c94c"></i><i style="background:#59b8ff"></i></div>
+ <h1>Ra lệnh rõ – Kiểm chứng giỏi<small>Tech Club · Week 2 · Ask better, check smarter</small></h1>
+ <div class="hud" id="hud">Tech Club · Tuần 2</div>
+ <button class="ghost" id="hMenu" title="Menu: đi tới phần khác, cài đặt">☰ Menu</button>
+</header>
+<main id="app"></main>
+<div id="modal" hidden></div>
+<script>
+// =====================================================================
+//  PHẦN THẦY CÔ CÓ THỂ CHỈNH SỬA
+//  TARGETS: tranh mẫu của Phần 1. Mỗi tranh gồm các chi tiết (s) và danh sách chi tiết được chấm điểm (key).
+//    Giá trị hợp lệ:
+//    ch: robot | meo | khunglong | phihanhgia | cho
+//    col, icol: do | cam | vang | xanhla | xanhduong | tim | hong | trang
+//    n: 1 | 2 | 3        acc: none | mu | kinh        item: none | o | bongbay | kem | sach
+//    pos: trai | giua | phai     bg: mattrang | bien | rung | thanhpho | lop
+//    time: ngay | hoanghon | dem     weather: none | nang | mua | tuyet
+//  FACTS: câu đố của Phần 2. t: 'nhi' hoặc 'pro'; a: true = THẬT, false = BỊA;
+//    m: cách kiểm chứng (dem | thu | tra | thay); x: giải thích; h: gợi ý của thầy cô.
+// =====================================================================
+const TARGETS=[
+ {name:'Khởi động',s:{ch:'meo',col:'cam',bg:'bien'},key:['ch','col','bg'],
+  tip:'Logi Drawy chỉ chắc chắn với những gì em nói ra. Hãy nói rõ nhân vật, màu và nơi chốn.'},
+ {name:'Đồ vật',s:{ch:'robot',col:'do',item:'o',icol:'vang',bg:'rung'},key:['ch','col','item','bg'],
+  tip:'Nhân vật đang cầm gì? Em đã nói cho Logi Drawy biết chưa?'},
+ {name:'Đếm & thời gian',s:{ch:'khunglong',col:'xanhla',n:2,bg:'thanhpho',time:'dem'},key:['ch','col','n','bg','time'],
+  tip:'Chữ “xanh” có thể là xanh lá hoặc xanh dương, hãy nói thật rõ. Đừng quên số lượng và thời gian.'},
+ {name:'Vị trí & màu đồ vật',s:{ch:'phihanhgia',col:'trang',item:'bongbay',icol:'do',pos:'trai',bg:'mattrang'},key:['ch','col','item','icol','pos','bg'],
+  tip:'Đồ vật cũng có màu riêng. Nhân vật đứng bên trái, ở giữa hay bên phải?'},
+ {name:'Bẫy chữ “không”',s:{ch:'cho',col:'vang',n:2,acc:'kinh',pos:'phai',bg:'lop',item:'none'},key:['ch','col','n','acc','pos','bg','item'],
+  tip:'Nếu không muốn Logi Drawy tự thêm đồ vật, em phải nói rõ: “không cầm gì”.'}
+];
+const FACTS=[
+ {t:'nhi',e:'🕷️',s:'Con nhện có 6 chân.',a:false,m:'tra',x:'Nhện có 8 chân. Côn trùng như kiến, ong mới có 6 chân.',h:'Nhện có phải là côn trùng không nhỉ? Thử nhớ lại hình con nhện và đếm chân.'},
+ {t:'nhi',e:'🌈',s:'Cầu vồng có 7 màu.',a:true,m:'tra',x:'Đúng! Người ta thường kể 7 màu: đỏ, cam, vàng, lục, lam, chàm, tím.',h:'Em thử kể tên các màu của cầu vồng từ trên xuống.'},
+ {t:'nhi',e:'✋',s:'Một bàn tay người có 6 ngón.',a:false,m:'dem',x:'Đếm ngay trên tay mình: 5 ngón! AI tạo ảnh đôi khi vẽ bàn tay có 6 ngón, nên phải nhìn thật kỹ.',h:'Câu này kiểm chứng được ngay tại chỗ đó!'},
+ {t:'nhi',e:'🐧',s:'Chim cánh cụt bay rất giỏi.',a:false,m:'tra',x:'Chim cánh cụt không bay được, nhưng bơi lặn rất giỏi.',h:'Chim cánh cụt di chuyển dưới nước hay trên trời?'},
+ {t:'nhi',e:'🧊',s:'Đá lạnh để ngoài nắng sẽ tan thành nước.',a:true,m:'thu',x:'Đúng! Thử để một viên đá ngoài nắng là thấy ngay.',h:'Em đã bao giờ để quên ly nước đá ngoài trời chưa?'},
+ {t:'nhi',e:'🔢',s:'Số 3 lớn hơn số 7.',a:false,m:'dem',x:'Số 7 lớn hơn số 3. Đếm trên ngón tay là thấy ngay!',h:'Đếm từ 1 đến 7: số nào đến sau thì lớn hơn.'},
+ {t:'nhi',pic:'meo5',say:'Mình vừa vẽ xong: “Đây là một con mèo hoàn toàn bình thường!”',a:false,m:'dem',x:'Con mèo trong tranh có 5 chân! Mèo thật chỉ có 4 chân. AI tạo ảnh đôi khi vẽ sai số chân, số ngón tay.',h:'Đếm thật kỹ từng cái chân của con mèo nhé.'},
+ {t:'nhi',e:'🌙',s:'Mặt Trăng tự phát ra ánh sáng giống như bóng đèn.',a:false,m:'thay',x:'Mặt Trăng không tự phát sáng. Nó sáng vì phản chiếu ánh sáng của Mặt Trời, giống như một tấm gương.',h:'Mặt Trăng giống một tấm gương hay giống một bóng đèn?'},
+ {t:'nhi',e:'⌨️',s:'Bàn phím máy tính có phím chữ A.',a:true,m:'thu',x:'Đúng! Nhìn xuống bàn phím trước mặt là thấy ngay.',h:'Câu này em kiểm chứng được trong 1 giây!'},
+ {t:'nhi',e:'🌍',s:'Trái Đất có hình gần giống một quả bóng tròn.',a:true,m:'tra',x:'Đúng! Ảnh chụp từ vũ trụ cho thấy Trái Đất gần tròn như quả bóng.',h:'Em đã thấy quả địa cầu trong lớp chưa?'},
+ {t:'pro',e:'🚀',s:'Tàu Apollo 13 đã đáp xuống Mặt Trăng thành công.',a:false,m:'tra',x:'Apollo 13 gặp sự cố trên đường bay nên phải quay về Trái Đất, không đáp xuống Mặt Trăng. Phi hành đoàn trở về an toàn.',h:'Apollo 13 nổi tiếng vì một sự cố trên đường bay.'},
+ {t:'pro',e:'🌐',s:'Tim Berners-Lee phát minh ra World Wide Web năm 1991 tại MIT (Mỹ).',a:false,m:'tra',x:'Tim Berners-Lee đề xuất World Wide Web năm 1989 khi đang làm việc tại CERN (Thụy Sĩ), không phải ở MIT.',h:'Hãy kiểm tra xem lúc đó ông làm việc ở đâu.'},
+ {t:'pro',e:'⛰️',s:'Đỉnh núi cao nhất Việt Nam là Ngọc Linh.',a:false,m:'tra',x:'Đỉnh cao nhất Việt Nam là Fansipan (khoảng 3.143 m, ở Lào Cai). Ngọc Linh thấp hơn nhiều.',h:'Đỉnh núi cao nhất được gọi là “Nóc nhà Đông Dương”.'},
+ {t:'pro',e:'🔤',s:'Cụm từ “Tech Club” có 8 chữ cái.',a:true,m:'dem',x:'Đúng! T-e-c-h-C-l-u-b: 8 chữ cái (dấu cách không phải chữ cái).',h:'Đếm từng chữ, nhớ là dấu cách không tính.'},
+ {t:'pro',e:'✖️',s:'17 × 23 = 401.',a:false,m:'thu',x:'17 × 23 = 391. Mẹo: 17 × 20 = 340, 17 × 3 = 51, cộng lại là 391.',h:'Tách 23 thành 20 + 3 rồi nhân từng phần.'},
+ {t:'pro',e:'🐍',s:'Ngôn ngữ Python được đặt theo tên một loài rắn.',a:false,m:'tra',x:'Python được đặt theo tên chương trình hài “Monty Python’s Flying Circus” mà tác giả Guido van Rossum rất thích.',h:'Tác giả của Python rất thích một chương trình hài của Anh.'},
+ {t:'pro',e:'☀️',s:'Ánh sáng Mặt Trời mất khoảng 8 phút để tới Trái Đất.',a:true,m:'tra',x:'Đúng! Khoảng 8 phút 20 giây.',h:'Ánh sáng đi rất nhanh, nhưng Mặt Trời ở rất xa.'},
+ {t:'pro',e:'🧱',s:'Có thể nhìn thấy Vạn Lý Trường Thành bằng mắt thường từ Mặt Trăng.',a:false,m:'tra',x:'Nghe rất thật nhưng sai. Từ Mặt Trăng không thể nhìn thấy bằng mắt thường, vì bề ngang công trình quá hẹp so với khoảng cách.',h:'Vạn Lý Trường Thành rất dài, nhưng bề ngang thì sao?'},
+ {t:'pro',e:'💾',s:'1 byte gồm 8 bit.',a:true,m:'thay',x:'Đúng! 1 byte = 8 bit. Đây là kiến thức nền tảng của máy tính.',h:'Bit là đơn vị nhỏ nhất. Byte được ghép từ mấy bit?'},
+ {t:'pro',e:'⌨️',s:'Phím tắt Ctrl + Z dùng để hoàn tác thao tác vừa làm.',a:true,m:'thu',x:'Đúng! Gõ một chữ rồi bấm Ctrl + Z là thấy ngay.',h:'Mở Notepad và thử ngay!'},
+ {t:'pro',e:'🏙️',s:'Hà Nội là thành phố đông dân nhất Việt Nam.',a:false,m:'tra',x:'Thành phố Hồ Chí Minh mới là nơi đông dân nhất Việt Nam.',h:'Thành phố nào ở miền Nam rất đông đúc?'},
+ {t:'pro',e:'🌊',s:'Sông Mê Kông chảy qua 6 quốc gia.',a:true,m:'tra',x:'Đúng! Trung Quốc, Myanmar, Lào, Thái Lan, Campuchia và Việt Nam.',h:'Mở bản đồ và dò theo dòng sông từ Tây Tạng xuống biển.'}
+];
+const INTRO=[
+ ['Hôm nay lớp mình có một trợ lý AI mới: Logi Drawy!',{ch:'robot',col:'xanhduong',item:'sach',bg:'lop'}],
+ ['Logi Drawy vẽ rất nhanh, nhưng nó chỉ vẽ đúng những gì em nói thật rõ.',{ch:'robot',col:'xanhduong',item:'o',icol:'vang',bg:'lop'}],
+ ['Chỗ nào em không nói, Logi Drawy sẽ... tự đoán!',{ch:'khunglong',col:'hong',acc:'mu',item:'kem',bg:'mattrang'}],
+ ['Logi Drawy còn thích kể “sự thật”. Có câu đúng, có câu bịa, mà câu nào nghe cũng rất chắc chắn.',{ch:'robot',col:'xanhduong',acc:'kinh',bg:'lop',time:'dem'}],
+ ['Thầy cô sẽ giúp các em hai việc: ra lệnh thật rõ, và kiểm chứng trước khi tin. Bắt đầu nào!',{ch:'robot',col:'xanhduong',n:1,item:'bongbay',icol:'do',bg:'lop'}]
+];
+// =====================================================================
+
+const $=s=>document.querySelector(s),app=$('#app'),hud=$('#hud');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const strip=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D');
+let SCREEN='',TIMERS=[];
+function clearTimers(){TIMERS.forEach(t=>{clearTimeout(t);clearInterval(t)});TIMERS=[]}
+function show(html,name){clearTimers();SCREEN=name||'';app.innerHTML=html;window.scrollTo(0,0)}
+function setHud(t){hud.textContent=t}
+
+// ===== NHÃN =====
+const V={ch:{robot:'Robot',meo:'Mèo',khunglong:'Khủng long',phihanhgia:'Phi hành gia',cho:'Chó'},
+ col:{do:'Đỏ',cam:'Cam',vang:'Vàng',xanhla:'Xanh lá',xanhduong:'Xanh dương',tim:'Tím',hong:'Hồng',trang:'Trắng'},
+ acc:{none:'Không có',mu:'Đội mũ',kinh:'Đeo kính'},item:{none:'Không cầm gì',o:'Cái ô',bongbay:'Bóng bay',kem:'Cây kem',sach:'Cuốn sách'},
+ pos:{trai:'Bên trái',giua:'Ở giữa',phai:'Bên phải'},bg:{mattrang:'Mặt Trăng',bien:'Bãi biển',rung:'Khu rừng',thanhpho:'Thành phố',lop:'Lớp học'},
+ time:{ngay:'Ban ngày',hoanghon:'Hoàng hôn',dem:'Ban đêm'},weather:{none:'Trời quang',nang:'Trời nắng',mua:'Trời mưa',tuyet:'Có tuyết'}};
+const SLOT={ch:'Nhân vật',col:'Màu nhân vật',n:'Số lượng',acc:'Phụ kiện',item:'Đồ vật cầm',icol:'Màu đồ vật',pos:'Vị trí',bg:'Bối cảnh',time:'Thời gian',weather:'Thời tiết'};
+const ORDER=['ch','col','n','acc','item','icol','pos','bg','time','weather'];
+const lab=(k,v)=>k==='n'?String(v):(k==='icol'?V.col:V[k])[v]||String(v);
+const COLHEX={do:'#e5383b',cam:'#f28c28',vang:'#f5d33f',xanhla:'#43b04a',xanhduong:'#3a7bd5',tim:'#9b59d0',hong:'#ff8fc8',trang:'#f4f1ea'};
+const OPTS={ch:['robot','meo','khunglong','phihanhgia','cho'],col:Object.keys(COLHEX),n:[1,2,3],acc:['none','mu','kinh'],item:['none','o','bongbay','kem','sach'],
+ pos:['trai','giua','phai'],bg:['mattrang','bien','rung','thanhpho','lop'],time:['ngay','hoanghon','dem'],weather:['none','none','nang','mua','tuyet']};
+const NEUTRAL={n:1,acc:'none',item:'none',pos:'giua',time:'ngay',weather:'none'};
+const hasIcol=it=>it==='o'||it==='bongbay';
+
+// ===== VẼ TRANH PIXEL =====
+const W=192,H=120,S=2,GY=108;
+const CHARS={
+ robot:{map:["......YY......","......DD......","..BBBBBBBBBB..","..BWWBBBBWWB..","..BWDBBBBWDB..","..BBBBBBBBBB..","..BBDDDDDDBB..","..SSSSSSSSSS..",".....GGGG.....","GBBBBBBBBBBBBG","GBBYYBBBBRRBBG","GBBBBBBBBBBBBG","G.SSSSSSSSSS.G","...GG....GG...","...GG....GG...","..DDDD..DDDD.."],
+  lens:[[2,3,4,2],[8,3,4,2]],bridge:[6,3,2],hat:[7,1],hand:[13,12]},
+ meo:{map:["..S........S..","..SB......BS..","..BBBBBBBBBB..",".BBWDBBBBWDBB.",".BBBBBPPBBBBB.","DBBBBBBBBBBBBD","..BBBBBBBBBB..","...BBBBBBBB...","..BBBBBBBBBB..","..BBBWWWWBBB..","..BBBWWWWBBB.S","..BBBBBBBBBBS.","..BBBBBBBBBS..","..SS.SS.SS.SS."],
+  lens:[[2,3,4,2],[8,3,4,2]],bridge:[6,3,2],hat:[7,2],hand:[12,9]},
+ khunglong:{map:["......BBBBBB..",".....BBBBWDBB.",".....BBBBBBBBB",".....BBBBBBBDD",".....BBBBBB...","..S..BBBBBB...",".SS.BBBBBBBBB.","SS.BBBBBBBB.B.","S.BBBBWWBBB...","..BBBBWWBBB...","..BBBBBBBB....","...BB...BB....","...SS...SS...."],
+  lens:[[8,1,4,2]],bridge:null,hat:[9,0],hand:[12,7]},
+ phihanhgia:{map:["....GGGGGG....","...GKKKKKKG...","...GKWKKKKG...","...GKKKKKKG...","....GGGGGG....","..BBBBBBBBBB..",".BBBBYYRRBBBB.",".BB.BBBBBB.BB.",".BB.BBBBBB.BB.",".GG.BBBBBB.GG.","....BBBBBB....","....BB..BB....","....BB..BB....","...GGG..GGG..."],
+  lens:[[4,2,3,1],[7,2,3,1]],bridge:null,hat:[7,0],hand:[12,9]},
+ cho:{map:["...BBBBBBBB...",".SSBBBBBBBBSS.",".SSBWDBBWDBSS.",".SSBBBBBBBBSS.",".S.BBBKKBBB.S.","...BBBBBBBB...","....BBPPBB....","..BBBBBBBBBB..","..BBBBBBBBBB.S","..BBBWWWWBBBS.","..BBBBBBBBBB..","..BB.BB.BB.BB.","..SS.SS.SS.SS."],
+  lens:[[3,2,3,2],[8,2,3,2]],bridge:[6,2,2],hat:[7,0],hand:[12,8]}
+};
+CHARS.meo5={...CHARS.meo,map:CHARS.meo.map.slice(0,-1).concat(["..S.S.S.S.S...","..S.S.S.S.S...","..D.D.D.D.D..."])};
+function shade(h,f){const n=parseInt(h.slice(1),16);const c=v=>Math.max(0,Math.min(255,Math.round(v*f)));return'#'+((1<<24)|(c(n>>16)<<16)|(c(n>>8&255)<<8)|c(n&255)).toString(16).slice(1)}
+function lcg(s){return()=>(s=(s*1103515245+12345)%2147483648)/2147483648}
+function R(c,x,y,w,h,col){c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
+function disc(c,cx,cy,r,col){for(let y=-r;y<=r;y++){const w=Math.round(Math.sqrt(r*r-y*y));R(c,cx-w,cy+y,w*2+1,1,col)}}
+function drawMap(c,map,x,y,s,pal){map.forEach((row,j)=>{for(let i=0;i<row.length;i++){const k=row[i];if(k!=='.'&&pal[k]){c.fillStyle=pal[k];c.fillRect(x+i*s,y+j*s,s,s)}}})}
+function skyIn(c,sp,x,y,w,h,horizon){
+ c.save();c.beginPath();c.rect(x,y,w,h);c.clip();const r=lcg(11),bad=sp.weather==='mua'||sp.weather==='tuyet';
+ if(sp.bg==='mattrang'){R(c,x,y,w,h,'#06061a');for(let i=0;i<45;i++)R(c,x+r()*w,y+r()*h,1,1,r()<.3?'#f2c94c':'#ffffff');
+  disc(c,x+30,y+22,10,'#2f7fd0');R(c,x+25,y+15,6,4,'#43b04a');R(c,x+31,y+23,5,5,'#43b04a');R(c,x+23,y+24,3,3,'#43b04a');R(c,x+26,y+13,5,1,'#ffffff')}
+ else if(sp.time==='hoanghon'){const B=['#6a4596','#b45a8e','#ef7a6e','#ffa66b','#ffd98a'],bh=(horizon-y)/B.length;B.forEach((col,i)=>R(c,x,y+i*bh,w,bh+1,col));R(c,x,horizon,w,h,'#ffd98a');
+  if(!bad)disc(c,x+w*.72,horizon-2,10,'#fff0a8')}
+ else if(sp.time==='dem'){R(c,x,y,w,h,'#1b1f4a');for(let i=0;i<30;i++)R(c,x+r()*w,y+r()*(horizon-y),1,1,'#ffffff');
+  if(!bad){disc(c,x+w-24,y+15,7,'#f4f1ea');disc(c,x+w-21,y+13,7,'#1b1f4a')}}
+ else{R(c,x,y,w,h,'#8fd3ff');R(c,x,horizon-10,w,10,'#b8e6ff');
+  if(!bad){disc(c,x+w-22,y+15,7,'#ffe27a');R(c,x+w-22,y+3,1,3,'#ffe27a');R(c,x+w-34,y+15,3,1,'#ffe27a')}
+  else{}
+  [[x+20,y+14],[x+w*.45,y+24]].forEach(([a,b])=>{R(c,a,b,22,5,'#ffffff');R(c,a+5,b-3,12,4,'#ffffff')})}
+ if(bad&&sp.bg!=='mattrang'){const g=sp.time==='dem'?'#3a3f63':'#9aa0b4';for(let i=0;i<w;i+=26){R(c,x+i-4,y+4,30,8,g);R(c,x+i+4,y,16,5,g)}}
+ c.restore()}
+function wxIn(c,sp,x,y,w,h){if(sp.weather!=='mua'&&sp.weather!=='tuyet')return;c.save();c.beginPath();c.rect(x,y,w,h);c.clip();const r=lcg(5);
+ for(let i=0;i<Math.round(w*h/120);i++){const a=x+r()*w,b=y+r()*h;if(sp.weather==='mua'){R(c,a,b,1,3,'#9ccfff');R(c,a-1,b+3,1,1,'#9ccfff')}else R(c,a,b,r()<.5?2:1,r()<.5?2:1,'#ffffff')}c.restore()}
+function pine(c,cx,base,h,col){for(let i=0;i<h;i++){const w=Math.round(1+i*.42);R(c,cx-w,base-h-4+i,w*2+1,1,i%6<2?shade(col,1.15):col)}R(c,cx-2,base-5,4,5,'#5a3a22')}
+function drawItem(c,it,ic,hx,hy,top){const col=COLHEX[ic]||COLHEX.do;
+ if(it==='o'){const cy=top-3;R(c,hx,cy,1,hy-cy+3,'#3b2a1c');R(c,hx-2,hy+2,3,1,'#3b2a1c');
+  for(let r=0;r<9;r++){const w=Math.round(14*Math.sqrt(1-Math.pow((8-r)/9,2)));R(c,hx-w,cy-9+r,w*2+1,1,r%3===2?shade(col,.85):col)}
+  for(let i=-14;i<=12;i+=5)R(c,hx+i,cy,3,1,shade(col,.7));R(c,hx,cy-11,1,2,'#3b2a1c')}
+ else if(it==='bongbay'){const bx=hx+9,by=top-4;for(let i=0;i<=12;i++)R(c,hx+(bx-hx)*i/12,hy-(hy-(by+9))*i/12,1,1,'#eeeeee');
+  for(let y=-7;y<=7;y++){const w=Math.round(6*Math.sqrt(1-(y*y)/50));R(c,bx-w,by+y,w*2+1,1,col)}R(c,bx-3,by-4,2,2,'#ffffff');R(c,bx-1,by+8,3,2,shade(col,.7))}
+ else if(it==='kem'){for(let i=0;i<7;i++){const w=Math.max(1,7-i);R(c,hx-Math.floor(w/2),hy-1+i,w,1,i%2?'#c08040':'#d9a05b')}disc(c,hx,hy-4,3,'#ff9ecf');R(c,hx,hy-9,2,2,'#e5383b')}
+ else if(it==='sach'){R(c,hx-3,hy-6,9,11,'#3454a8');R(c,hx+5,hy-5,1,9,'#f4f1ea');R(c,hx-1,hy-3,4,1,'#f2c94c');R(c,hx-1,hy-1,3,1,'#f2c94c')}}
+function drawChar(c,ck,cx,col,acc,item,icol){const C=CHARS[ck]||CHARS.robot,h=C.map.length*S,x=Math.round(cx-7*S),y=GY-h;
+ const main=COLHEX[col]||COLHEX.xanhduong,pal={B:main,S:shade(main,col==='trang'?.78:.68),D:'#1a1033',W:'#ffffff',K:'#2c5a9a',G:col==='trang'?'#8d8da0':'#b8b8c8',Y:'#f2c94c',R:'#ff6b8a',P:'#ff8fb0'};
+ R(c,x+2,GY-1,24,3,'rgba(0,0,0,.28)');drawMap(c,C.map,x,y,S,pal);
+ if(acc==='kinh'){C.lens.forEach(([a,b,w,hh])=>R(c,x+a*S,y+b*S,w*S,hh*S,'#111111'));if(C.bridge)R(c,x+C.bridge[0]*S,y+C.bridge[1]*S,C.bridge[2]*S,S,'#111111');C.lens.forEach(([a,b])=>R(c,x+a*S+1,y+b*S+1,1,1,'#ffffff'))}
+ if(acc==='mu'){const hx=x+C.hat[0]*S,hy=y+C.hat[1]*S;R(c,hx-9,hy-1,18,2,'#1a1033');R(c,hx-6,hy-10,12,9,'#1a1033');R(c,hx-6,hy-4,12,2,'#e5383b')}
+ if(item&&item!=='none')drawItem(c,item,icol,x+C.hand[0]*S+1,y+C.hand[1]*S,y)}
+function drawScene(c,sp){c.imageSmoothingEnabled=false;c.clearRect(0,0,W,H);const night=sp.time==='dem',r=lcg(3);
+ if(sp.bg==='lop'){R(c,0,0,W,H,'#dcd2a8');R(c,0,64,W,32,'#6fa08c');R(c,0,63,W,2,'#f3efe0');
+  [[8,12],[146,12]].forEach(([a,b])=>{R(c,a-2,b-2,42,38,'#f0f0f0');skyIn(c,sp,a,b,38,34,b+30);wxIn(c,sp,a,b,38,34);R(c,a+18,b,2,34,'#f0f0f0');R(c,a,b+16,38,2,'#f0f0f0');R(c,a-4,b+35,46,3,'#e0e0e0')});
+  R(c,54,9,84,44,'#6b4a2f');R(c,57,12,78,38,'#1f4d3a');c.fillStyle='#e8f0e0';c.font='bold 10px monospace';c.textAlign='center';c.fillText('TECH CLUB',96,28);c.fillStyle='#bfe3ff';c.font='9px monospace';c.fillText('Tuần 2',96,41);
+  R(c,0,96,W,24,'#b98a5a');for(let i=0;i<W;i+=16)R(c,i,96,1,24,'#a77a4d');R(c,0,95,W,2,'#6b4a2f');
+  if(night)R(c,0,0,W,H,'rgba(20,20,70,.30)')}
+ else{const gt={bien:66,rung:96,thanhpho:94,mattrang:90}[sp.bg]||96;skyIn(c,sp,0,0,W,H,gt);
+  if(sp.bg==='bien'){R(c,0,66,W,20,night?'#1b3f78':'#2f7fd0');for(let i=0;i<14;i++)R(c,(i*29)%W,69+(i%4)*4,10,1,night?'#3f6fb0':'#7fc0ff');R(c,0,86,W,2,'#e8f6ff');R(c,0,88,W,32,'#f0d48a');for(let i=0;i<40;i++)R(c,r()*W,90+r()*30,1,1,'#d9b96a');
+   for(let i=0;i<11;i++)R(c,16+(i>6?1:0),52+i*4,4,4,i%2?'#8b5a2b':'#7a4d22');R(c,6,46,26,4,'#2f8a3a');R(c,1,50,12,3,'#2f8a3a');R(c,24,50,12,3,'#2f8a3a');R(c,11,42,14,4,'#43b04a')}
+  else if(sp.bg==='rung'){for(let i=0;i<10;i++)pine(c,i*22-4,96,30+((i*7)%3)*8,'#2e6b3a');R(c,0,96,W,24,'#5a9a46');for(let i=0;i<30;i++)R(c,r()*W,98+r()*20,2,1,'#3f7a35');pine(c,10,104,40,'#245a30');pine(c,184,104,44,'#245a30')}
+  else if(sp.bg==='thanhpho'){const B=[[0,26,50],[24,22,62],[44,30,40],[72,20,70],[90,28,48],[116,24,58],[138,30,44],[166,26,64]],BC=['#4b4f6b','#5a5f7a','#3f4360'];
+   B.forEach(([bx,bw,bh],i)=>{R(c,bx,94-bh,bw,bh,BC[i%3]);for(let wy=94-bh+5;wy<88;wy+=7)for(let wx=bx+3;wx<bx+bw-4;wx+=6){const lit=r()<.65;R(c,wx,wy,3,3,sp.time==='ngay'?'#bfe3ff':sp.time==='hoanghon'?(lit?'#ffd27a':'#7a6a8a'):(lit?'#f2c94c':'#2a2d40'))}});
+   R(c,0,94,W,4,'#8a8a94');R(c,0,98,W,22,'#4a4a52');for(let i=4;i<W;i+=24)R(c,i,112,10,2,'#e8e8e8')}
+  else if(sp.bg==='mattrang'){R(c,0,90,W,30,'#a3a3ad');R(c,0,90,W,2,'#c4c4cc');[[30,100,12,3],[120,114,16,4],[170,98,10,3],[78,116,10,2],[150,104,6,2]].forEach(([a,b,rw,rh])=>{for(let y=-rh;y<=rh;y++){const w=Math.round(rw*Math.sqrt(1-(y*y)/(rh*rh+.01)));R(c,a-w,b+y,w*2+1,1,'#8a8a96')}})}
+  if(sp.weather==='tuyet'&&sp.bg!=='mattrang')R(c,0,gt,W,3,'#ffffff');
+  if(night&&sp.bg!=='mattrang')R(c,0,gt,W,H-gt,'rgba(15,15,60,.35)');
+  if(sp.time==='hoanghon'&&sp.bg!=='mattrang')R(c,0,0,W,H,'rgba(255,130,80,.10)')}
+ const CX={trai:44,giua:96,phai:148},OF={1:[0],2:[-17,17],3:[-30,0,30]},n=sp.n||1;
+ if(sp.big){const m=CHARS[sp.big].map,col=COLHEX[sp.col];R(c,96-30,GY+2,60,4,'rgba(0,0,0,.28)');drawMap(c,m,96-28,GY+4-m.length*4,4,{B:col,S:shade(col,.68),D:'#1a1033',W:'#ffffff',P:'#ff8fb0'});return}
+ if(sp.ch)(OF[n]||OF[1]).forEach(o=>drawChar(c,sp.ch,Math.max(16,Math.min(176,CX[sp.pos||'giua']+o)),sp.col,sp.acc,sp.item,sp.icol));
+ if(sp.bg!=='lop')wxIn(c,sp,0,0,W,H)}
+function paint(id,sp,done){const cv=document.getElementById(id);if(!cv)return;const c=cv.getContext('2d');
+ if(!done){drawScene(c,sp);return}
+ const off=document.createElement('canvas');off.width=W;off.height=H;drawScene(off.getContext('2d'),sp);let y=0;
+ const step=()=>{if(!cv.isConnected)return;y=Math.min(H,y+3);c.fillStyle='#170f3a';c.fillRect(0,0,W,H);c.drawImage(off,0,0,W,y,0,0,W,y);if(y<H){c.fillStyle='#f2c94c';c.fillRect(0,y,W,1);requestAnimationFrame(step)}else done()};step()}
+const fullT=t=>{const o={...NEUTRAL,...t.s};if(!hasIcol(o.item))delete o.icol;return o};
+
+// ===== LOGI DRAWY HIỂU CÂU LỆNH =====
+const LEX_RAW=[
+ ['x','x','ô tô|xe ô tô|bóng đá|bóng rổ|trái cây|chiều cao|ngày mai'],
+ ['item','none','không cầm gì|không cầm|tay không|không mang gì|không cầm đồ|không cầm đồ vật|không có đồ vật|chẳng cầm gì|no item|nothing'],
+ ['acc','none','không đội mũ|không đội nón|không đeo kính|không có mũ|không có kính|không đội gì|không đeo gì|không phụ kiện|không có phụ kiện|no hat|no glasses'],
+ ['ch','robot','robot|rô bốt|rôbốt|người máy|robo'],
+ ['ch','meo','mèo|miu|cat|kitty|mèo con'],
+ ['ch','khunglong','khủng long|dino|dinosaur|khủng long con|t rex|trex'],
+ ['ch','phihanhgia','phi hành gia|nhà du hành|nhà du hành vũ trụ|du hành gia|phi công vũ trụ|astronaut'],
+ ['ch','cho','chó|cún|chó con|cún con|dog|puppy'],
+ ['col','xanhla','xanh lá|xanh lá cây|xanh lục|lục|green'],
+ ['col','xanhduong','xanh dương|xanh da trời|xanh nước biển|xanh biển|xanh lam|blue'],
+ ['col','xanh?','xanh'],
+ ['col','do','đỏ|red'],['col','cam','cam|orange'],['col','vang','vàng|yellow|gold'],['col','tim','tím|purple|violet'],['col','hong','hồng|pink'],['col','trang','trắng|white'],
+ ['n','1','một|1|one'],['n','2','hai|2|two'],['n','3','ba|3|three'],['n','?','nhiều|vài|mấy|many|some'],
+ ['item','o','ô|cái ô|ô dù|dù|cây dù|chiếc ô|umbrella'],
+ ['item','bongbay','bóng bay|bong bóng|quả bóng bay|quả bóng|bóng|balloon'],
+ ['item','kem','kem|cây kem|que kem|kem ốc quế|ốc quế|ice cream'],
+ ['item','sach','sách|cuốn sách|quyển sách|vở|quyển vở|book'],
+ ['acc','mu','mũ|nón|cái mũ|chiếc mũ|hat|cap'],
+ ['acc','kinh','kính|mắt kính|kính mắt|kính râm|glasses|sunglasses'],
+ ['pos','trai','bên trái|phía trái|góc trái|phía bên trái|ở trái|left'],
+ ['pos','giua','ở giữa|chính giữa|giữa|trung tâm|center|middle'],
+ ['pos','phai','bên phải|phía phải|góc phải|phía bên phải|ở phải|right'],
+ ['bg','mattrang','mặt trăng|cung trăng|trên trăng|moon|vũ trụ|ngoài vũ trụ|space'],
+ ['bg','bien','bãi biển|biển|bờ biển|bãi cát|beach|sea|ocean'],
+ ['bg','rung','rừng|khu rừng|rừng cây|forest|jungle|woods'],
+ ['bg','thanhpho','thành phố|phố|đường phố|city|town|nhà cao tầng|tòa nhà'],
+ ['bg','lop','lớp học|lớp|phòng học|trường học|trường|classroom|school'],
+ ['time','ngay','ban ngày|buổi sáng|buổi trưa|sáng|trưa|ngày|day|daytime|morning|noon'],
+ ['time','hoanghon','hoàng hôn|chiều tà|buổi chiều|chiều|sunset|evening|dusk'],
+ ['time','dem','ban đêm|buổi tối|đêm|tối|ánh trăng|night|nighttime'],
+ ['weather','nang','nắng|trời nắng|nắng đẹp|sunny|mặt trời'],
+ ['weather','mua','mưa|trời mưa|cơn mưa|rain|rainy|raining'],
+ ['weather','tuyet','tuyết|trời tuyết|snow|snowy|snowing'],
+ ['weather','none','trời quang|không mưa|quang đãng|clear sky']
+];
+const LEX=[];LEX_RAW.forEach(([slot,val,ph])=>ph.split('|').forEach(p=>LEX.push({slot,val,t:p.split(' ')})));LEX.sort((a,b)=>b.t.length-a.t.length);
+const NOUNTOK=new Set();LEX.forEach(e=>{if(['ch','item','acc','bg'].includes(e.slot))NOUNTOK.add(e.t[e.t.length-1])});
+const PLAIN={};("khong:không co:có gi:gì con:con chu:chú cai:cái chiec:chiếc qua:quả cuon:cuốn quyen:quyển cay:cây ben:bên phia:phía goc:góc dung:đứng ngoi:ngồi mau:màu doi:đội deo:đeo nguoi:người phi:phi hanh:hành gia:gia du:dù nha:nhà mot:một hai:hai ba:ba nhieu:nhiều vai:vài bong:bóng bay:bay kem:kem oc:ốc que:quế sach:sách vo:vở non:nón mu:mũ kinh:kính ram:râm giua:giữa trung:trung tam:tâm chinh:chính rung:rừng bien:biển bai:bãi bo:bờ thanh:thành pho:phố lop:lớp hoc:học truong:trường ngay:ngày sang:sáng trua:trưa toi:tối dem:đêm chieu:chiều ta:tà hoang:hoàng hon:hôn nang:nắng tuyet:tuyết troi:trời mua:mưa khung:khủng long:long meo:mèo cun:cún xanh:xanh vang:vàng luc:lục ve:vẽ tren:trên duoi:dưới trong:trong anh:ánh cung:cung tru:trụ ngoai:ngoài quang:quang dang:đãng chang:chẳng mang:mang tay:tay da:da nuoc:nước ro:rô bot:bốt").split(' ').forEach(p=>{const[a,b]=p.split(':');PLAIN[a]=b});
+const ITEMSTART=new Set('o du bong kem sach vo cai chiec cuon quyen cay qua que gi mot 1 hai 2 ba 3'.split(' ')),COLPLAIN=new Set('do cam vang xanh tim hong trang'.split(' ')),
+ DOGPREV=new Set(['con','chú','một','hai','ba','1','2','3','những','các','đàn','bầy']),SIDE=['bên','phía','góc','ở'];
+function prepass(raw){const out=[];for(let i=0;i<raw.length;i++){const t=raw[i];if(strip(t)!==t){out.push(t);continue}
+ const p=out[i-1]||'',np=raw[i+1]||'',isN=NOUNTOK.has(p)||p==='màu';let a;
+ switch(t){case'do':a=isN?'đỏ':'đó';break;
+  case'cam':a=p==='màu'?'cam':ITEMSTART.has(np)?'cầm':isN?'cam':'cầm';break;
+  case'o':a=['cầm','cái','chiếc','che','một','cây'].includes(p)?'ô':'ở';break;
+  case'tim':a=isN?'tím':'tìm';break;case'hong':a=isN?'hồng':'hông';break;
+  case'trang':a=['mặt','cung','ánh','trên'].includes(p)?'trăng':'trắng';break;
+  case'mat':a=np==='kinh'?'mắt':'mặt';break;
+  case'la':a=p==='xanh'?'lá':'là';break;case'duong':a=p==='xanh'?'dương':'đường';break;case'lam':a=p==='xanh'?'lam':'làm';break;
+  case'cho':a=(DOGPREV.has(p)||COLPLAIN.has(np))?'chó':'cho';break;
+  case'trai':a=SIDE.includes(p)?'trái':'trai';break;case'phai':a=SIDE.includes(p)?'phải':'phai';break;
+  case'may':a=p==='người'?'máy':'mấy';break;case'cat':a=p==='bãi'?'cát':'cat';break;
+  default:a=PLAIN[t]||t}
+ out.push(a)}return out}
+function parsePrompt(text){const raw=text.toLowerCase().normalize('NFC').match(/[\p{L}\p{N}]+/gu)||[],tk=prepass(raw),M=[];let i=0;
+ while(i<tk.length){let hit=null;for(const e of LEX){const L=e.t.length;if(L>tk.length-i)continue;let ok=true;for(let j=0;j<L;j++)if(tk[i+j]!==e.t[j]){ok=false;break}if(ok){hit=e;break}}
+  if(hit){M.push({slot:hit.slot,val:hit.val,i,end:i+hit.t.length});i+=hit.t.length}else i++}
+ const sp={},notes=[],set=(k,v,how)=>{if(!sp[k])sp[k]={v,how}};const CLS=new Set(['con','chú','bé','bạn','chàng','cô','anh','em','người']);
+ M.forEach((m,idx)=>{const nx=M[idx+1];if(m.slot==='x')return;
+  if(m.slot==='n'){const ok=CLS.has(tk[m.end])||(nx&&nx.slot==='ch'&&(nx.i===m.end||(nx.i===m.end+1&&CLS.has(tk[m.end]))));if(!ok)return;
+   if(m.val==='?'){if(!sp.n){set('n',rnd([2,3]),'unclear');notes.push('“'+tk.slice(m.i,m.end).join(' ')+'” chưa rõ là mấy, nên Logi Drawy tự chọn số lượng.')}}else set('n',+m.val,'said');return}
+  if(m.slot==='col'){let host=null;for(let j=idx-1;j>=0;j--){const p=M[j];if(m.i-p.end>3)break;if(['ch','item','acc','bg'].includes(p.slot)){host=p;break}}
+   let tg=!host?(sp.col?'icol':'col'):host.slot==='ch'?'col':host.slot==='item'?'icol':null;
+   if(nx&&nx.i===m.end&&(nx.slot==='item'||nx.slot==='ch')&&!(host&&host.end===m.i))tg=nx.slot==='item'?'icol':'col';if(!tg)return;
+   if(m.val==='xanh?'){if(!sp[tg]){set(tg,rnd(['xanhla','xanhduong']),'unclear');notes.push('“xanh” chưa rõ là xanh lá hay xanh dương, nên Logi Drawy tự chọn.')}}else set(tg,m.val,'said');return}
+  set(m.slot,m.val,'said')});
+ return{sp,notes}}
+function complete(sp){const o={};Object.keys(sp).forEach(k=>o[k]={...sp[k]});
+ ['ch','col','n','acc','item','pos','bg','time','weather'].forEach(k=>{if(!o[k]){let v=rnd(OPTS[k]);if(k==='weather'&&o.bg.v==='mattrang')v='none';o[k]={v,how:'guess'}}});
+ if(hasIcol(o.item.v)){if(!o.icol)o.icol={v:rnd(OPTS.col),how:'guess'}}else delete o.icol;return o}
+const flat=o=>Object.fromEntries(Object.entries(o).map(([k,x])=>[k,x.v]));
+function evaluate(t,full){const T=fullT(t);const rows=t.key.map(k=>{const b=full[k],tv=T[k];let st;if(!b)st='bad';else if(b.how==='said')st=b.v===tv?'ok':'bad';else st=b.how;return{k,tv,bv:b?b.v:null,st}});
+ const extra=ORDER.filter(k=>!t.key.includes(k)&&full[k]&&full[k].how!=='said'&&!(k==='time'&&full.bg.v==='mattrang')).map(k=>SLOT[k]+': '+lab(k,full[k].v));
+ return{rows,score:rows.filter(r=>r.st==='ok').length,total:rows.length,extra}}
+const stars=(s,t)=>{const q=s/t,n=q>=1?3:q>=.6?2:q>0?1:0;return'★'.repeat(n)+'☆'.repeat(3-n)};
+const BGP={mattrang:'trên Mặt Trăng',bien:'ở bãi biển',rung:'trong khu rừng',thanhpho:'ở thành phố',lop:'trong lớp học'};
+function sentence(sp){const nm=sp.ch?V.ch[sp.ch].toLowerCase():'một nhân vật';let s='Vẽ '+(sp.n?sp.n+' ':'')+(sp.ch&&!['robot','phihanhgia'].includes(sp.ch)?'con ':'')+nm;
+ if(sp.col)s+=' màu '+V.col[sp.col].toLowerCase();
+ if(sp.acc)s+=sp.acc==='none'?', không đội mũ, không đeo kính':sp.acc==='mu'?', đội mũ':', đeo kính';
+ if(sp.item)s+=sp.item==='none'?', không cầm gì':', cầm '+V.item[sp.item].toLowerCase()+(sp.icol?' màu '+V.col[sp.icol].toLowerCase():'');
+ if(sp.pos)s+=', đứng '+V.pos[sp.pos].toLowerCase();if(sp.bg)s+=', '+BGP[sp.bg];if(sp.time)s+=', '+V.time[sp.time].toLowerCase();if(sp.weather)s+=', '+V.weather[sp.weather].toLowerCase();return s+'.'}
+
+// ===== PHẦN 1: PROMPT PICTIONARY =====
+const P1={mode:'pro',show:10,team:'',idx:0,round:1,res:[],chips:{},prev:''};
+const ICON={ch:{robot:'🤖',meo:'🐱',khunglong:'🦖',phihanhgia:'🚀',cho:'🐶'},acc:{none:'🚫',mu:'🎩',kinh:'🕶️'},item:{none:'✋',o:'☂️',bongbay:'🎈',kem:'🍦',sach:'📖'},
+ pos:{trai:'◀',giua:'●',phai:'▶'},bg:{mattrang:'🌕',bien:'🏖️',rung:'🌲',thanhpho:'🏙️',lop:'🏫'},time:{ngay:'🌞',hoanghon:'🌇',dem:'🌙'},weather:{none:'🌤️',nang:'☀️',mua:'🌧️',tuyet:'❄️'}};
+const CHIPROWS=[['ch','Nhân vật'],['col','Màu nhân vật'],['n','Số lượng'],['acc','Phụ kiện'],['item','Cầm đồ vật'],['icol','Màu đồ vật'],['pos','Vị trí'],['bg','Bối cảnh'],['time','Thời gian'],['weather','Thời tiết']];
+function chipLabel(k,v){if(k==='col'||k==='icol')return`<span class="sw" style="background:${COLHEX[v]}"></span>${V.col[v]}`;if(k==='n')return v;return(ICON[k][v]||'')+' '+V[k][v]}
+function optBtns(list,cur){return list.map(([v,l])=>`<button data-v="${v}" class="${String(v)===String(cur)?'on':''}">${l}</button>`).join('')}
+function bindOpt(id,fn){const box=$('#'+id);box.onclick=e=>{const b=e.target.closest('button');if(!b)return;box.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));fn(b.dataset.v)}}
+const hudP1=()=>(P1.team?P1.team+' · ':'')+'Phần 1 · Tranh '+(P1.idx+1)+'/'+TARGETS.length+' · Vòng '+P1.round+'/3';
+function p1Setup(){P1.view='setup';setHud('Phần 1 · Thiết lập');
+ show(`<div class="card gold pop"><div class="tag">PHẦN 1 · PROMPT PICTIONARY</div><h2>Ra lệnh cho Logi Drawy</h2>
+ <p>Xem tranh mẫu, rồi mô tả để Logi Drawy vẽ lại giống nhất có thể. Mỗi tranh có <b>3 vòng</b> để sửa câu lệnh. Chi tiết nào em không nói, Logi Drawy sẽ tự đoán!</p>
+ <h3>Chế độ</h3><div class="opt" id="oMode">${optBtns([['nhi','🟢 Nhí: chọn hình'],['pro','🔵 Pro: tự gõ mô tả']],P1.mode)}</div>
+ <h3>Xem tranh mẫu</h3><div class="opt" id="oShow">${optBtns([[5,'5 giây'],[10,'10 giây'],[0,'Luôn hiện']],P1.show)}</div>
+ <h3>Tên đội (không bắt buộc)</h3><input type="text" id="team" maxlength="30" value="${esc(P1.team)}" placeholder="Ví dụ: Đội Tên Lửa">
+ <div class="btns"><button id="go">Bắt đầu ▶</button><button class="ghost" id="back">Về màn hình chính</button></div></div>`,'p1');
+ bindOpt('oMode',v=>P1.mode=v);bindOpt('oShow',v=>P1.show=+v);
+ $('#go').onclick=()=>{P1.team=$('#team').value.trim();P1.idx=0;P1.res=TARGETS.map(()=>[]);p1Show()};$('#back').onclick=home}
+function p1Show(){P1.view='show';const t=TARGETS[P1.idx];P1.round=1;P1.prev='';P1.chips={};setHud(hudP1());
+ if(!P1.show){p1Input();return}
+ show(`<div class="card gold pop"><div class="tag">TRANH ${P1.idx+1}/${TARGETS.length} · ${esc(t.name)} · ${t.key.length} chi tiết được chấm</div><h2>Nhìn thật kỹ tranh mẫu!</h2>
+ <div style="max-width:640px;margin:0 auto"><canvas id="cvT" class="pix" width="192" height="120"></canvas></div><p class="score" id="cd" style="text-align:center"></p>
+ <div class="btns" style="justify-content:center"><button class="ghost" id="ready">Em nhớ rồi, ẩn tranh ▶</button></div></div>`,'p1');
+ paint('cvT',fullT(t));let s=P1.show;const tick=()=>{if(SCREEN!=='p1'||!$('#cd'))return;if(s<=0){p1Input();return}$('#cd').textContent='Tranh sẽ ẩn sau '+s+' giây...';s--;TIMERS.push(setTimeout(tick,1000))};tick();$('#ready').onclick=p1Input}
+function chipRows(){return CHIPROWS.filter(([k])=>k!=='icol'||hasIcol(P1.chips.item)).map(([k,l])=>`<div class="crow"><b>${l}</b><div class="chips">${(k==='icol'?OPTS.col:[...new Set(OPTS[k])]).map(v=>`<button class="chip${P1.chips[k]===v?' on':''}" data-k="${k}" data-v="${v}">${chipLabel(k,v)}</button>`).join('')}</div></div>`).join('')}
+function chipSentence(){$('#sent').textContent=Object.keys(P1.chips).length?sentence(P1.chips):'(Chưa chọn gì, Logi Drawy sẽ tự đoán tất cả!)'}
+function p1Input(){P1.view='input';const t=TARGETS[P1.idx];setHud(hudP1());const side=P1.show===0;
+ const body=P1.mode==='nhi'?`<div id="chipbox">${chipRows()}</div><h3>Câu lệnh gửi Logi Drawy</h3><div class="prompt" id="sent"></div><p class="mut" style="font-size:15px">Ô nào em không chọn, Logi Drawy sẽ tự đoán!</p>`
+  :`<textarea id="pr" maxlength="220" placeholder="Mô tả thật rõ bức tranh em muốn Logi Drawy vẽ...">${esc(P1.prev)}</textarea><p class="mut" style="font-size:15px">Mẹo: gõ tiếng Việt có dấu để Logi Drawy hiểu đúng nhất. Bấm Enter để gửi.</p>`;
+ show(`<div class="card gold pop"><div class="tag">TRANH ${P1.idx+1}/${TARGETS.length} · ${esc(t.name)} · VÒNG ${P1.round}/3</div><h2>${P1.round===1?'Em muốn Logi Drawy vẽ gì?':'Sửa câu lệnh cho rõ hơn'}</h2>
+ ${P1.round>1?`<p class="hint" style="font-size:18px">🧑‍🏫 Gợi ý của thầy cô: ${esc(t.tip)}</p>`:''}
+ <div class="${side?'grid2':''}">${side?'<div><canvas id="cvT" class="pix" width="192" height="120"></canvas><p class="cap">Tranh mẫu</p></div>':''}<div>${body}</div></div>
+ <div class="btns"><button id="send">Gửi cho Logi Drawy ✎</button><button class="ghost" id="sw">Đổi sang chế độ ${P1.mode==='nhi'?'Pro (tự gõ)':'Nhí (chọn hình)'}</button></div></div>`,'p1');
+ if(side)paint('cvT',fullT(t));
+ if(P1.mode==='nhi'){chipSentence();$('#chipbox').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;const k=b.dataset.k,v=k==='n'?+b.dataset.v:b.dataset.v;
+   if(P1.chips[k]===v)delete P1.chips[k];else P1.chips[k]=v;if(!hasIcol(P1.chips.item))delete P1.chips.icol;$('#chipbox').innerHTML=chipRows();chipSentence()}}
+ else{const ta=$('#pr');ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);ta.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();p1Send()}}}
+ $('#send').onclick=p1Send;$('#sw').onclick=()=>{if(P1.mode==='pro'&&$('#pr'))P1.prev=$('#pr').value;P1.mode=P1.mode==='nhi'?'pro':'nhi';p1Input()}}
+function p1Send(){let prompt,parsed;
+ if(P1.mode==='nhi'){const sp={};Object.entries(P1.chips).forEach(([k,v])=>sp[k]={v,how:'said'});parsed={sp,notes:[]};prompt=Object.keys(P1.chips).length?sentence(P1.chips):'(Không chọn gì)'}
+ else{const ta=$('#pr');prompt=ta.value.trim();if(!prompt){ta.classList.remove('shake');void ta.offsetWidth;ta.classList.add('shake');return}P1.prev=prompt;parsed=parsePrompt(prompt)}
+ const t=TARGETS[P1.idx],full=complete(parsed.sp),ev=evaluate(t,full);P1.res[P1.idx].push({prompt,score:ev.score,total:ev.total});p1Result(t,full,ev,parsed.notes,prompt)}
+function p1Result(t,full,ev,notes,prompt){P1.view='result';const r=P1.round,perfect=ev.score===ev.total,last=r>=3||perfect,lastPic=P1.idx>=TARGETS.length-1;setHud(hudP1());
+ const ST={ok:'✔ Đúng',bad:'✘ Khác tranh mẫu',unclear:'? Em nói chưa rõ',guess:'🎲 Em chưa nói, Logi Drawy tự đoán'};
+ show(`<div class="card gold pop"><div class="tag">TRANH ${P1.idx+1}/${TARGETS.length} · ${esc(t.name)} · VÒNG ${r}/3</div>
+ <div class="grid2"><div><canvas id="cvT" class="pix" width="192" height="120"></canvas><p class="cap">Tranh mẫu</p></div><div><canvas id="cvB" class="pix" width="192" height="120"></canvas><p class="cap" id="bcap">Logi Drawy đang vẽ...</p></div></div>
+ <div id="after" class="hide"><p class="score">Độ giống: ${ev.score}/${ev.total} chi tiết <span class="stars">${stars(ev.score,ev.total)}</span></p>
+ <div class="prompt">${esc(prompt)}</div>
+ <table><tr><th>Chi tiết</th><th>Tranh mẫu</th><th>Logi Drawy vẽ</th><th>Kết quả</th></tr>${ev.rows.map(x=>`<tr><td>${SLOT[x.k]}</td><td>${lab(x.k,x.tv)}</td><td>${x.bv==null?'(không có)':lab(x.k,x.bv)}</td><td class="${x.st}">${ST[x.st]}${x.st!=='ok'&&x.st!=='bad'&&x.bv===x.tv?' (trúng may mắn)':''}</td></tr>`).join('')}</table>
+ ${notes.length?`<p style="color:#ffb86b">${notes.map(esc).join('<br>')}</p>`:''}
+ ${ev.extra.length?`<p><b class="good">Logi Drawy còn tự chọn thêm:</b> ${ev.extra.map(esc).join(' · ')}</p>`:''}
+ <p>${perfect?'<b class="good">Hoàn hảo! Câu lệnh của em rất rõ ràng.</b>':r<3?'Chỗ nào Logi Drawy đoán sai? Thêm chi tiết vào câu lệnh rồi thử lại nhé.':'Hết 3 vòng! So sánh vòng 1 với vòng 3 xem em đã tiến bộ thế nào.'}</p>
+ <div class="btns">${!last?`<button id="again">Sửa câu lệnh → Vòng ${r+1}</button>`:''}<button class="${last?'':'ghost'}" id="next">${lastPic?'Xem tổng kết ▶':'Sang tranh tiếp ▶'}</button></div></div></div>`,'p1');
+ paint('cvT',fullT(t));paint('cvB',flat(full),()=>{const b=$('#bcap'),a=$('#after');if(b)b.textContent='Logi Drawy vẽ (vòng '+r+')';if(a)a.classList.remove('hide')});
+ $('#next').onclick=()=>{if(lastPic)p1Final();else{P1.idx++;p1Show()}};if(!last)$('#again').onclick=()=>{P1.round++;p1Input()}}
+function p1Final(){P1.view='final';setHud((P1.team?P1.team+' · ':'')+'Phần 1 · Tổng kết');
+ const rows=TARGETS.map((t,i)=>{const a=P1.res[i]||[];if(!a.length)return null;return{t,first:a[0].score,best:Math.max(...a.map(x=>x.score)),total:t.key.length,n:a.length}}).filter(Boolean);
+ const f=rows.reduce((s,x)=>s+x.first,0),b=rows.reduce((s,x)=>s+x.best,0),tot=rows.reduce((s,x)=>s+x.total,0)||1;
+ let bp=null;P1.res.forEach(a=>a.forEach(x=>{const q=x.score/x.total;if(!bp||q>=bp.q)bp={q,p:x.prompt}}));
+ show(`<div class="card gold pop"><div class="tag">PHẦN 1 · TỔNG KẾT${P1.team?' · '+esc(P1.team):''}</div><h2>Câu lệnh càng rõ, Logi Drawy vẽ càng đúng!</h2>
+ <div class="meter"><span>Vòng 1</span><div class="bar"><i style="width:${f/tot*100}%"></i></div><b>${f}/${tot}</b></div>
+ <div class="meter"><span>Tốt nhất</span><div class="bar best"><i style="width:${b/tot*100}%"></i></div><b>${b}/${tot}</b></div>
+ <p>${b>f?`Em đã tăng thêm <b class="good">${b-f} chi tiết đúng</b> chỉ bằng cách sửa câu lệnh cho rõ hơn!`:'Thử lại và thêm chi tiết vào câu lệnh để Logi Drawy vẽ giống hơn nhé!'}</p>
+ <table><tr><th>Tranh</th><th>Vòng 1</th><th>Tốt nhất</th><th>Số vòng</th></tr>${rows.map(x=>`<tr><td>${esc(x.t.name)}</td><td>${x.first}/${x.total}</td><td class="${x.best===x.total?'ok':''}">${x.best}/${x.total}</td><td>${x.n}</td></tr>`).join('')}</table>
+ ${bp?`<h3>Câu lệnh hay nhất của em</h3><div class="prompt" id="bestp">${esc(bp.p)}</div><div class="btns"><button class="sky" id="copy">Sao chép câu lệnh</button></div><p class="mut" style="font-size:16px">Thầy cô có thể gõ câu này vào một công cụ AI tạo ảnh thật trên màn chiếu để cả lớp xem AI thật cũng cần câu lệnh rõ ràng.</p>`:''}
+ <h3>Cùng suy nghĩ</h3><ol><li>Vì sao ở vòng 1, Logi Drawy hay vẽ khác tranh mẫu?</li><li>Chi tiết nào em hay quên nói nhất?</li><li>Khi hỏi thầy cô hay hỏi AI, nói rõ ràng giúp em điều gì?</li></ol>
+ <div class="btns"><button id="p2">Sang Phần 2: Thật hay Bịa? ▶</button><button class="ghost" id="again">Chơi lại Phần 1</button><button class="ghost" id="back">Về màn hình chính</button></div></div>`,'p1');
+ if(bp)$('#copy').onclick=()=>{const done=()=>{$('#copy').textContent='Đã sao chép ✔'};try{navigator.clipboard.writeText(bp.p).then(done,()=>selectText())}catch(e){selectText()}};
+ $('#p2').onclick=p2Setup;$('#again').onclick=p1Setup;$('#back').onclick=home}
+function selectText(){const el=$('#bestp');if(!el)return;const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);$('#copy').textContent='Bấm Ctrl + C để sao chép'}
+
+// ===== PHẦN 2: THẬT HAY BỊA? =====
+const TEAMCOL=['#ff6b8a','#59b8ff','#f2c94c','#5ef2a0'],TEAMNAME=['Đội Đỏ','Đội Xanh','Đội Vàng','Đội Lục'],KEYS=['a','l','z','m'];
+const METHOD={dem:'🔢 Đếm được',thu:'🧪 Thử được ngay',tra:'📚 Tra sách / bản đồ',thay:'🧑‍🏫 Hỏi thầy cô'};
+const PRE=['Chắc chắn 100%: ','Theo dữ liệu của mình: ','Mình biết rõ điều này: ','Đây là sự thật: ','Ai cũng biết: '];
+const Q={n:2,names:[...TEAMNAME],tier:'all',count:12,teams:[],list:[],i:0};
+function p2Setup(){setHud('Phần 2 · Thiết lập');
+ show(`<div class="card gold pop"><div class="tag">PHẦN 2 · THẬT HAY BỊA?</div><h2>Logi Drawy kể “sự thật”</h2>
+ <p>Logi Drawy sẽ nói những câu nghe rất chắc chắn. Đội nào bấm chuông trước được trả lời: <b class="good">THẬT</b> hay <b class="bad">BỊA</b>? Sau đó nói xem mình sẽ <b>kiểm chứng bằng cách nào</b>.</p>
+ <h3>Số đội</h3><div class="opt" id="oN">${optBtns([[2,'2 đội'],[3,'3 đội'],[4,'4 đội']],Q.n)}</div><div id="names"></div>
+ <h3>Mức câu hỏi</h3><div class="opt" id="oT">${optBtns([['all','🟢🔵 Xen kẽ cả hai'],['nhi','🟢 Nhí'],['pro','🔵 Pro']],Q.tier)}</div>
+ <h3>Số câu</h3><div class="opt" id="oC">${optBtns([[8,'8 câu'],[12,'12 câu'],[0,'Tất cả']],Q.count)}</div>
+ <div class="btns"><button id="go">Bắt đầu ▶</button><button class="ghost" id="back">Về màn hình chính</button></div></div>`,'p2set');
+ const names=()=>{$('#names').innerHTML=Array.from({length:Q.n},(_,i)=>`<div class="opt"><span class="kbd">${KEYS[i].toUpperCase()}</span><input type="text" data-i="${i}" maxlength="20" value="${esc(Q.names[i])}" style="max-width:320px;border-left:10px solid ${TEAMCOL[i]}"></div>`).join('');
+  $('#names').querySelectorAll('input').forEach(x=>x.oninput=()=>Q.names[+x.dataset.i]=x.value)};names();
+ bindOpt('oN',v=>{Q.n=+v;names()});bindOpt('oT',v=>Q.tier=v);bindOpt('oC',v=>Q.count=+v);$('#go').onclick=p2Start;$('#back').onclick=home}
+function p2Start(){const nhi=shuffle(FACTS.filter(f=>f.t==='nhi')),pro=shuffle(FACTS.filter(f=>f.t==='pro'));let list;
+ if(Q.tier==='nhi')list=nhi;else if(Q.tier==='pro')list=pro;else{list=[];while(nhi.length||pro.length){if(nhi.length)list.push(nhi.shift());if(pro.length)list.push(pro.shift())}}
+ Q.list=Q.count?list.slice(0,Q.count):list;Q.i=0;Q.done=false;Q.teams=Array.from({length:Q.n},(_,i)=>({name:(Q.names[i]||'').trim()||TEAMNAME[i],col:TEAMCOL[i],score:0,life:1}));newQ()}
+function newQ(){Object.assign(Q,{phase:'buzz',active:null,out:new Set(),hint:false,bonus:new Set(),shown:false,correct:null,typed:false,pre:rnd(PRE)});renderQ()}
+function drawBot(){const cv=$('#bot');if(!cv)return;const c=cv.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#170f3a';c.fillRect(0,0,48,48);
+ const col=COLHEX.xanhduong;drawMap(c,CHARS.robot.map,3,0,3,{B:col,S:shade(col,.68),D:'#1a1033',W:'#ffffff',G:'#b8b8c8',Y:'#f2c94c',R:'#ff6b8a'})}
+function renderQ(){const f=Q.list[Q.i],ph=Q.phase,say=f.say||(Q.pre+f.s);setHud('Phần 2 · Câu '+(Q.i+1)+'/'+Q.list.length);
+ const teams=`<div class="teams" style="--n:${Q.teams.length}">${Q.teams.map((t,i)=>`<div class="team${Q.active===i&&ph==='answer'?' act':''}${Q.out.has(i)&&ph!=='reveal'?' out':''}" style="background:${t.col}"><b>${esc(t.name)}</b><div class="pts">${t.score}</div><small>${t.life?'🧑‍🏫 còn 1 lần hỏi thầy cô':'🧑‍🏫 đã hỏi thầy cô'}</small></div>`).join('')}</div>`;
+ let ctrl='';const T=Q.active!=null?Q.teams[Q.active]:null;
+ if(ph==='buzz')ctrl=`<p class="tag" style="font-size:20px">Đội nào bấm chuông trước? (bấm phím hoặc bấm vào tên đội)</p><div class="btns">${Q.teams.map((t,i)=>`<button data-buzz="${i}" style="background:${t.col};font-size:22px" ${Q.out.has(i)?'disabled':''}><span class="kbd">${KEYS[i].toUpperCase()}</span>${esc(t.name)}</button>`).join('')}<button class="ghost" id="skipQ">Bỏ qua câu này</button></div>`;
+ else if(ph==='answer')ctrl=`<p class="tag" style="font-size:22px">${esc(T.name)} trả lời: Logi Drawy nói thật hay bịa?</p><div class="tf"><button class="t" id="aT"><span class="kbd">T</span>THẬT</button><button class="f" id="aF"><span class="kbd">B</span>BỊA</button></div>
+  <div class="btns"><button class="ghost" id="life" ${T.life?'':'disabled'}>🧑‍🏫 Hỏi thầy cô (${T.life?'còn 1 lần':'đã dùng'})</button><button class="ghost" id="cancel">Huỷ lượt bấm chuông</button></div>
+  ${Q.hint?`<div class="hint pop"><b>🧑‍🏫 Gợi ý của thầy cô:</b> ${esc(f.h)}</div>`:''}`;
+ else{const left=Q.teams.some((_,i)=>!Q.out.has(i));
+  ctrl=`<div class="pop">${T?`<p class="verdict ${Q.correct?'good':'bad'}">${Q.correct?'Chính xác! +1 cho '+esc(T.name):'Chưa đúng rồi!'}</p>`:''}
+  ${!Q.shown&&left?`<div class="btns"><button id="steal">Đội khác giành quyền trả lời</button><button class="ghost" id="showA">Xem đáp án</button></div>`:
+  `<div class="ans"><p class="verdict ${f.a?'good':'bad'}">Đáp án: ${f.a?'THẬT':'BỊA'}</p><p><span class="method">${METHOD[f.m]}</span></p><p style="font-size:23px">${esc(f.x)}</p>
+   <p class="mut">Đội nào nói được cách kiểm chứng hay? Thầy cô cộng điểm:</p><div class="btns">${Q.teams.map((t,i)=>`<button data-bonus="${i}" style="background:${t.col};font-size:16px" ${Q.bonus.has(i)?'disabled':''}>+1 lý do hay · ${esc(t.name)}</button>`).join('')}</div></div>
+   <div class="btns"><button id="nextQ">${Q.i<Q.list.length-1?'Câu tiếp theo ▶':'Xem kết quả ▶'}</button></div>`}</div>`}
+ show(`${teams}<div class="card gold" id="qcard"><div class="tag">CÂU ${Q.i+1}/${Q.list.length} · ${f.t==='nhi'?'🟢 Nhí':'🔵 Pro'}</div>
+ <div class="stage"><div><canvas id="bot" class="pix bob" width="48" height="48"></canvas><p class="cap">Logi Drawy</p></div><div class="speech" id="say"></div></div>
+ <div style="max-width:${f.pic?520:300}px;margin:16px auto">${f.pic?'<canvas id="cvQ" class="pix" width="192" height="120"></canvas>':`<div class="big">${f.e}</div>`}</div>${ctrl}</div>`,'p2');
+ drawBot();if(f.pic)paint('cvQ',{...NEUTRAL,big:f.pic,col:'cam',bg:'bien'});
+ const el=$('#say');if(Q.typed)el.textContent=say;else{Q.typed=true;let i=0;const iv=setInterval(()=>{if(!el.isConnected){clearInterval(iv);return}el.textContent=say.slice(0,i+=2);if(i>=say.length)clearInterval(iv)},30);TIMERS.push(iv)}
+ app.querySelectorAll('[data-buzz]').forEach(b=>b.onclick=()=>buzz(+b.dataset.buzz));
+ app.querySelectorAll('[data-bonus]').forEach(b=>b.onclick=()=>{const i=+b.dataset.bonus;if(Q.bonus.has(i))return;Q.bonus.add(i);Q.teams[i].score++;renderQ()});
+ const on=(id,fn)=>{const b=$('#'+id);if(b)b.onclick=fn};
+ on('skipQ',()=>{Q.shown=true;Q.active=null;Q.phase='reveal';renderQ()});on('aT',()=>answer(true));on('aF',()=>answer(false));
+ on('life',()=>{if(!T||!T.life)return;T.life=0;Q.hint=true;renderQ()});on('cancel',()=>{Q.active=null;Q.hint=false;Q.phase='buzz';renderQ()});
+ on('steal',()=>{Q.active=null;Q.hint=false;Q.phase='buzz';renderQ()});on('showA',()=>{Q.shown=true;renderQ()});on('nextQ',nextQ)}
+function buzz(i){if(Q.phase!=='buzz'||Q.out.has(i)||i>=Q.teams.length)return;Q.active=i;Q.phase='answer';Q.hint=false;renderQ()}
+function answer(v){if(Q.phase!=='answer')return;const f=Q.list[Q.i],ok=v===f.a;Q.correct=ok;
+ if(ok){Q.teams[Q.active].score++;Q.shown=true}else{Q.out.add(Q.active);if(!Q.teams.some((_,i)=>!Q.out.has(i)))Q.shown=true}
+ Q.phase='reveal';renderQ();if(!ok){const c=$('#qcard');c.classList.add('shake')}}
+function nextQ(){if(Q.i<Q.list.length-1){Q.i++;newQ()}else p2Final()}
+function p2Final(){Q.done=true;setHud('Phần 2 · Kết quả');const rk=Q.teams.map(t=>t).sort((a,b)=>b.score-a.score),top=rk[0].score;
+ show(`<div class="card gold pop"><div class="tag">PHẦN 2 · KẾT QUẢ</div><h2>Bảng xếp hạng thám tử kiểm chứng</h2>
+ <table><tr><th>Hạng</th><th>Đội</th><th>Điểm</th><th>Danh hiệu</th></tr>${rk.map((t,i)=>`<tr><td>${i+1}</td><td><span class="sw" style="background:${t.col}"></span> ${esc(t.name)}</td><td>${t.score}</td><td>${t.score===top?'🏆 Thám tử kiểm chứng':'🔍 Thám tử tài năng'}</td></tr>`).join('')}</table>
+ <h3>Cùng suy nghĩ</h3><ol><li>Câu nào Logi Drawy nói nghe chắc chắn nhất mà lại sai?</li><li>Em đã kiểm chứng bằng cách nào: đếm, thử, tra sách hay hỏi thầy cô?</li><li>Lần sau dùng AI, em sẽ làm gì trước khi tin câu trả lời?</li></ol>
+ <p class="prompt" style="border-style:solid">Câu hỏi càng rõ, câu trả lời càng tốt. Câu trả lời dù nghe chắc chắn vẫn cần kiểm chứng.</p>
+ <div class="btns"><button id="again">Chơi lại Phần 2</button><button class="ghost" id="back">Về màn hình chính</button></div></div>`,'p2end');
+ $('#again').onclick=p2Setup;$('#back').onclick=home}
+addEventListener('keydown',e=>{if(SCREEN!=='p2'||!$('#modal').hidden||e.target.matches('input,textarea')||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+ if(Q.phase==='buzz'){const i=KEYS.indexOf(k);if(i>=0)buzz(i)}
+ else if(Q.phase==='answer'){if(k==='t')answer(true);else if(k==='b')answer(false)}
+ else if(Q.phase==='reveal'&&k==='enter'&&$('#nextQ')){e.preventDefault();nextQ()}});
+
+// ===== HƯỚNG DẪN CHO THẦY CÔ =====
+function guide(){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="card gold pop"><div class="tag">DÀNH CHO THẦY CÔ</div><h2>Hướng dẫn tổ chức Tech Club Tuần 2</h2>
+ <p><b>Chủ đề tuần:</b> Ask better, check smarter. Học sinh hiểu hai điều: (1) câu hỏi càng rõ, AI trả lời càng đúng; (2) AI nói rất chắc chắn vẫn có thể sai, nên phải kiểm chứng. Thông điệp chung của tháng: <i>thầy cô dạy con cách học, kể cả cách học cùng AI.</i></p>
+ <h3>Chuẩn bị</h3><ul><li>Phần 1: mở file này trên máy của từng đội đôi (một anh/chị lớn + một em nhỏ).</li><li>Phần 2: mở file trên máy chiếu, chia lớp thành 2–4 đội.</li><li>File chạy hoàn toàn offline, không cần internet hay tài khoản.</li></ul>
+ <h3>Gợi ý thời lượng (60 phút)</h3><table><tr><th>Phần</th><th>Thời lượng</th><th>Việc chính</th></tr>
+ <tr><td>Mở đầu</td><td>5 phút</td><td>Chiếu phần giới thiệu Logi Drawy.</td></tr><tr><td>Phần 1: Prompt Pictionary</td><td>25 phút</td><td>Các đội ra lệnh cho Logi Drawy, 3 vòng mỗi tranh.</td></tr>
+ <tr><td>Phần 2: Thật hay Bịa?</td><td>22 phút</td><td>Đố vui theo đội trên máy chiếu.</td></tr><tr><td>Tổng kết</td><td>8 phút</td><td>3 câu hỏi suy ngẫm và câu chốt.</td></tr></table>
+ <h3>Phần 1: Prompt Pictionary</h3><ul><li><b>Chế độ Nhí</b> (chọn hình, không cần đọc hay gõ) dành cho các em nhỏ. <b>Chế độ Pro</b> (tự gõ mô tả) dành cho các em lớn. Đội đôi có thể đổi chế độ bất cứ lúc nào.</li>
+ <li>Tranh mẫu hiện 5 giây, 10 giây hoặc luôn hiện, tuỳ thầy cô chọn ở màn hình thiết lập.</li>
+ <li>Điểm mấu chốt: chi tiết nào học sinh không nói, Logi Drawy sẽ tự đoán và bảng kết quả ghi rõ “🎲 Em chưa nói, Logi Drawy tự đoán”. Đây là lúc để hỏi: “Logi Drawy đoán sai chỗ nào? Em sẽ thêm gì?”</li>
+ <li>Thầy cô đi vòng quanh, gợi ý bằng câu hỏi, không đọc đáp án hộ học sinh.</li>
+ <li>Nút <b>☰ Menu</b> (góc trên bên phải): đổi thời gian xem tranh mẫu hoặc chế độ Nhí/Pro bất cứ lúc nào, cho đội đến muộn vào thẳng tranh bất kỳ, hoặc chuyển nhanh giữa Phần 1 và Phần 2 mà không mất ván đang chơi.</li>
+ <li>Logi Drawy là trình mô phỏng, không phải AI thật, nên chạy offline và cho kết quả giống nhau trên mọi máy. Ở màn hình tổng kết, thầy cô có thể gõ “câu lệnh hay nhất” vào một công cụ AI tạo ảnh thật trên màn chiếu. Học sinh dưới 13 tuổi không tự dùng công cụ AI.</li></ul>
+ <h3>Phần 2: Thật hay Bịa?</h3><ul><li>Đội bấm chuông bằng phím <span class="kbd">A</span><span class="kbd">L</span><span class="kbd">Z</span><span class="kbd">M</span>, hoặc thầy cô bấm vào tên đội khi đội giơ tay.</li>
+ <li>Đội trả lời bằng nút hoặc phím <span class="kbd">T</span> (Thật) / <span class="kbd">B</span> (Bịa). Trả lời sai thì đội khác có thể giành quyền.</li>
+ <li>Sau mỗi đáp án, hỏi “Em sẽ kiểm chứng bằng cách nào?” và bấm “+1 lý do hay” cho đội nói được cách kiểm chứng tốt.</li>
+ <li>Mỗi đội có 1 lần “Hỏi thầy cô”. Thầy cô đọc gợi ý trên màn hình hoặc gợi ý theo cách của mình.</li>
+ <li>Với câu có nhãn “Đếm được” hoặc “Thử được ngay”, hãy cho học sinh kiểm chứng tại chỗ.</li></ul>
+ <h3>Câu chốt cuối buổi</h3><p class="prompt" style="border-style:solid">Câu hỏi càng rõ, câu trả lời càng tốt. Câu trả lời dù nghe chắc chắn vẫn cần kiểm chứng.</p>
+ <h3>Chỉnh nội dung</h3><p>Mở file bằng Notepad, sửa danh sách <b>TARGETS</b> (tranh mẫu) và <b>FACTS</b> (câu đố) ở đầu phần mã. Hướng dẫn giá trị hợp lệ có ghi ngay phía trên.</p>
+ <div class="btns"><button id="closeG">Đóng</button></div></div>`;$('#closeG').onclick=closeModal}
+$('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
+
+// ===== GIỚI THIỆU & MÀN HÌNH CHÍNH =====
+let IN=0;
+function intro(){IN=0;setHud('Giới thiệu');
+ show(`<div class="card gold pop"><div style="max-width:660px;margin:0 auto"><canvas id="cvI" class="pix" width="192" height="120"></canvas></div><div class="prompt" id="cap" style="margin-top:16px;min-height:3.4em;border-style:solid;font-size:24px"></div>
+ <div class="btns"><button id="inext">Tiếp ▶</button><button class="ghost" id="iskip">Bỏ qua phần giới thiệu</button></div></div>`,'intro');
+ line();$('#inext').onclick=()=>{if(++IN>=INTRO.length)home();else line()};$('#iskip').onclick=home}
+function line(){clearTimers();const[s,sp]=INTRO[IN],el=$('#cap');paint('cvI',{...NEUTRAL,...sp});let i=0;const iv=setInterval(()=>{if(!el.isConnected){clearInterval(iv);return}el.textContent=s.slice(0,++i);if(i>=s.length)clearInterval(iv)},28);TIMERS.push(iv);$('#inext').textContent=IN===INTRO.length-1?'Bắt đầu ▶':'Tiếp ▶'}
+function home(){setHud('Tech Club · Tuần 2');
+ show(`<div class="card gold pop"><div class="tag">TECH CLUB · TUẦN 2 · ASK BETTER, CHECK SMARTER</div><h2>Ra lệnh rõ – Kiểm chứng giỏi</h2>
+ <p>Hôm nay các em làm việc cùng trợ lý AI <b>Logi Drawy</b>. Phần 1: ra lệnh thật rõ để Logi Drawy vẽ đúng. Phần 2: Logi Drawy kể “sự thật”, các em đoán xem câu nào là bịa. Thầy cô sẽ giúp các em ra lệnh rõ ràng và kiểm chứng trước khi tin.</p></div>
+ <div class="menu"><button id="m1"><b>Phần 1 ✎ Prompt Pictionary</b><span>Mô tả tranh mẫu để Logi Drawy vẽ lại. Chơi theo đội đôi trên máy tính.</span></button>
+ <button id="m2" class="sky"><b>Phần 2 ? Thật hay Bịa?</b><span>Đố vui theo đội trên máy chiếu: bấm chuông, đoán và kiểm chứng.</span></button>
+ <button id="m3" class="ghost"><b>Hướng dẫn cho thầy cô</b><span>Cách tổ chức, thời lượng gợi ý và câu hỏi tổng kết.</span></button></div>
+ <div class="btns"><button class="ghost" id="m4">Xem lại phần giới thiệu</button></div>`,'home');
+ $('#m1').onclick=p1Setup;$('#m2').onclick=p2Setup;$('#m3').onclick=guide;$('#m4').onclick=intro}
+function closeModal(){const m=$('#modal');m.hidden=true;m.innerHTML=''}
+const hasP1Res=()=>P1.res.some(a=>a&&a.length),p2Live=()=>Q.list.length>0&&!Q.done;
+function menu(){const m=$('#modal'),inP1=SCREEN==='p1'&&['show','input','result'].includes(P1.view);m.hidden=false;
+ m.innerHTML=`<div class="card gold pop"><div class="tag">MENU</div><h2>Đi tới</h2>
+ <div class="btns"><button class="ghost" data-go="home">⌂ Màn hình chính</button><button class="ghost" data-go="intro">Giới thiệu</button><button class="ghost" data-go="guide">Hướng dẫn cho thầy cô</button></div>
+ <h3>Phần 1: chọn tranh</h3><p class="mut" style="font-size:16px">Cho đội đến muộn: vào thẳng tranh bất kỳ. Kết quả các tranh đã chơi vẫn được giữ.</p>
+ <div class="btns">${TARGETS.map((t,i)=>`<button data-pic="${i}" class="${inP1&&P1.idx===i?'':'ghost'}">${i+1}. ${esc(t.name)}</button>`).join('')}${hasP1Res()?'<button class="ghost" data-go="p1final">Tổng kết Phần 1</button>':''}</div>
+ <h3>Phần 2: Thật hay Bịa?</h3><div class="btns">${p2Live()?`<button data-go="p2cont">Tiếp tục ván đang chơi (câu ${Q.i+1}/${Q.list.length})</button>`:''}<button class="ghost" data-go="p2new">Thiết lập ván mới</button></div>
+ <h3>Cài đặt Phần 1 (có hiệu lực ngay)</h3><p style="margin-bottom:0">Xem tranh mẫu</p><div class="opt" id="mShow">${optBtns([[5,'5 giây'],[10,'10 giây'],[0,'Luôn hiện']],P1.show)}</div>
+ <p style="margin-bottom:0">Chế độ</p><div class="opt" id="mMode">${optBtns([['nhi','🟢 Nhí: chọn hình'],['pro','🔵 Pro: tự gõ mô tả']],P1.mode)}</div>
+ <div class="btns"><button id="mClose">Đóng ✕</button></div></div>`;
+ const go={home,intro,guide:()=>guide(),p1final:p1Final,p2cont:renderQ,p2new:p2Setup};
+ m.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const k=b.dataset.go;closeModal();go[k]()});
+ m.querySelectorAll('[data-pic]').forEach(b=>b.onclick=()=>{if(!hasP1Res()&&P1.res.length!==TARGETS.length)P1.res=TARGETS.map(()=>[]);P1.idx=+b.dataset.pic;closeModal();p1Show()});
+ bindOpt('mShow',v=>{P1.show=+v;applyP1()});bindOpt('mMode',v=>{P1.mode=v;applyP1()});$('#mClose').onclick=closeModal}
+function applyP1(){if(SCREEN!=='p1')return;if($('#pr'))P1.prev=$('#pr').value;if(P1.view==='input')p1Input();else if(P1.view==='show'){if(P1.show)p1Show();else p1Input()}else if(P1.view==='setup')p1Setup()}
+$('#hMenu').onclick=menu;
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
+intro();
+</script>
+</body>
+</html>
