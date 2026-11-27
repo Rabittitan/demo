@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hôm nay là người học, ngày mai là người dẫn lối · Tech Club Tuần 4</title>
 <style>
-:root{--bg:#130d26;--card:#241a52;--card2:#170f3a;--ink:#f3eefc;--mut:#b7a9e6;--gold:#f2c94c;--ok:#5ef2a0;--bad:#ff6b8a;--sky:#59b8ff;--pix:"VT323","Consolas","Courier New",monospace;color-scheme:dark}
+:root{--txt:"Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;--bg:#130d26;--card:#241a52;--card2:#170f3a;--ink:#f3eefc;--mut:#b7a9e6;--gold:#f2c94c;--ok:#5ef2a0;--bad:#ff6b8a;--sky:#59b8ff;--pix:"VT323","Consolas","Courier New",monospace;color-scheme:dark}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;color:var(--ink);font-family:var(--pix);font-size:19px;line-height:1.35}
+html,body{margin:0;min-height:100%;color:var(--ink);font-family:var(--txt);font-size:19px;line-height:1.5}
+h1,h2,h3,.tag,.hud,.big,.clk,button{font-family:var(--pix)}
 html{background:#130d26}body{background:radial-gradient(ellipse 1400px 900px at top,#2a1c5c 0,#130d26 70%) no-repeat #130d26;min-height:100vh}
-#crt{position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.42) 100%)}
+#crt{position:fixed;inset:0;pointer-events:none;z-index:50;background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.42) 100%)}
 header{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(19,13,38,.95);border-bottom:4px solid #000}
 .logo{width:38px;height:38px;border-radius:50%;background:#14306e;display:grid;align-content:center;gap:4px;padding:0 9px;border:3px solid #000;flex:none}
 .logo i{display:block;height:4px}
@@ -52,8 +53,8 @@ th{background:var(--card2);color:var(--gold);font-weight:400}
 .crow{display:grid;grid-template-columns:200px 1fr;gap:8px;align-items:center;padding:6px 0;border-bottom:2px dashed rgba(183,169,230,.22)}
 @media(max-width:600px){.crow{grid-template-columns:1fr}}
 .prompt{background:#0f0a24;border:3px dashed var(--gold);padding:10px 12px;font-size:24px;word-break:break-word;margin:8px 0}
-pre.code{background:#0f0a24;border:3px solid #000;padding:10px 14px;font:inherit;font-size:24px;white-space:pre-wrap;margin:8px 0}
-.speech{background:#fff;color:#141414;border:4px solid #000;box-shadow:5px 5px 0 #000;padding:14px 18px;font-size:30px;line-height:1.25;min-height:3.4em}
+pre.code{font-family:Consolas,"Courier New",monospace;background:#0f0a24;border:3px solid #000;padding:10px 14px;font:inherit;font-size:24px;white-space:pre-wrap;margin:8px 0}
+.speech{background:#fff;color:#141414;border:4px solid #000;box-shadow:5px 5px 0 #000;padding:14px 18px;font-size:28px;line-height:1.45;min-height:3.4em}
 .big{font-size:90px;line-height:1.1;text-align:center}
 .stage{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
 @media(max-width:700px){.stage{grid-template-columns:1fr}}
@@ -62,6 +63,28 @@ pre.code{background:#0f0a24;border:3px solid #000;padding:10px 14px;font:inherit
 .corners{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
 .corner{border:4px solid #000;box-shadow:4px 4px 0 #000;padding:10px 12px;color:#1a1033}
 .corner b{display:block;font-size:24px}.corner small{font-size:16px;display:block;margin-bottom:6px}
+.clk{font-size:54px;line-height:1.1;color:#fff;text-shadow:3px 3px 0 #000}
+.stat{display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:24px;margin:10px 0}
+.ttgt{position:relative;background:#fff;color:#1a1033;border:4px solid #000;padding:12px 16px;font-size:28px;line-height:2;max-height:240px;overflow:auto}
+.ttgt span{padding:1px 3px;border-radius:4px}.ttgt .wk{color:#08703a;background:#d6ffe6}.ttgt .wx{color:#b0002a;background:#ffd9e0;text-decoration:line-through}.ttgt .wc{background:#f2c94c;outline:2px solid #1a1033}
+textarea.tin{font-family:var(--txt);font-size:28px;line-height:1.6;min-height:120px}
+.pwrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}@media(max-width:700px){.pwrap{grid-template-columns:1fr}}
+.pgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;background:#000;border:4px solid #000;width:100%;max-width:340px;aspect-ratio:1;touch-action:none;user-select:none;margin:0 auto}
+.pgrid div{background:#fff}.pgrid.live div{cursor:crosshair}
+.pal{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}.pal button{width:52px;height:44px;padding:0;font-size:16px}.pal button.on{outline:4px solid #fff;outline-offset:2px}
+.mseq{font-size:58px;text-align:center;min-height:1.5em;letter-spacing:6px}
+.mslots{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;min-height:60px;margin:8px 0}.mslots span{width:56px;height:56px;border:3px dashed var(--mut);display:grid;place-items:center;font-size:34px}
+.mpal{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.mpal button{font-size:40px;padding:4px 12px;background:#fff}
+.goal{background:#fff7d6;color:#3a2a00;border:4px solid #000;padding:10px 14px;font-size:23px;margin-bottom:12px}
+.script{background:#f4f4f8;border:4px solid #000;padding:14px;min-height:120px}
+.blk{display:block;width:max-content;max-width:100%;color:#fff;font-family:var(--txt);font-weight:700;font-size:21px;padding:8px 16px;border-radius:6px;border:2px solid rgba(0,0,0,.3);margin:4px 0;cursor:pointer;text-shadow:1px 1px 0 rgba(0,0,0,.35);box-shadow:none;text-align:left}
+.blk.ev{border-radius:20px 20px 6px 6px}.blk:hover:not(:disabled){outline:3px solid #1a1033;transform:none;filter:brightness(1.08)}.blk.sel{outline:4px solid #e5383b}
+.blk:disabled{opacity:1;cursor:default}
+.fixopt button{font-family:var(--txt);font-size:20px}
+.lgopt{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}.lgopt button{font-family:var(--txt);font-size:22px;text-align:center;padding:14px}
+.lgopt button.right{background:var(--ok)}.lgopt button.wrong{background:var(--bad)}.lgopt button.right:disabled,.lgopt button.wrong:disabled,.fixopt button.picked:disabled{opacity:1}
+.res{background:#0f0a24;border:3px solid var(--ok);padding:12px 14px;font-size:24px;margin-top:12px}
+.shake{animation:sh .4s steps(4)}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 #modal{position:fixed;inset:0;z-index:60;background:rgba(5,3,15,.82);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:30px 14px}
 #modal[hidden]{display:none}
 #modal .card{max-width:880px;width:100%}
@@ -84,30 +107,49 @@ pre.code{background:#0f0a24;border:3px solid #000;padding:10px 14px;font:inherit
 <script>
 // =====================================================================
 //  PHẦN THẦY CÔ CÓ THỂ CHỈNH SỬA
-//  TYP: câu gõ phím (Vòng 1).   DRAW: đề vẽ 60 giây (Vòng 2).
-//  FIX: đoạn code có lỗi cho Vòng 4 (c: code, a: đáp án). Đổi sang ngôn ngữ lớp đang học nếu cần,
-//       hoặc thay bằng bài Scoolcode thật của lớp.
-//  PR: cảnh mẫu của Vòng 5 (t: mô tả, k: các chi tiết được chấm điểm).
-//  LG: câu đố logic của Vòng 6 (q: câu hỏi, a: đáp án).
+//  TYP: các câu cho Vòng 1 (gõ phím).
+//  PIX: tranh mẫu 8x8 cho Vòng 2. Ký hiệu: . trắng · k đen · r đỏ · y vàng · b xanh dương · g xanh lá
+//  FIX: bài bắt lỗi kiểu Scoolcode cho Vòng 4.
+//       b: các khối [chữ, loại]. Loại: ev (sự kiện) · mo (chuyển động) · ct (điều khiển) · lk (hiển thị) · va (biến) · pe (bút)
+//       Thêm dấu > ở đầu chữ để thụt vào trong khối lặp/nếu (>> là thụt 2 cấp).
+//       bug: số thứ tự khối bị lỗi (đếm từ 0) · o: các cách sửa, cách đúng để đầu tiên · x: giải thích.
+//  PR: cảnh mẫu của Vòng 5. k: chi tiết được chấm; w: các nhóm từ khoá (mỗi nhóm cần ít nhất 1 từ có mặt, gõ có dấu hay không dấu đều được).
+//  LG: câu đố logic của Vòng 6 (q: câu hỏi, o: lựa chọn, c: số thứ tự đáp án đúng, đếm từ 0, a: giải thích).
 // =====================================================================
 const TYP=['Người thầy giỏi không trao sẵn đáp án, mà giúp con tự tìm ra.','Hôm nay là người học, ngày mai là người dẫn lối.','Thầy cô dạy con cách học, kể cả cách học cùng AI.','Cảm ơn những người dẫn lối đã giúp con lớn lên mỗi ngày.'];
-const DRAW=['Chú robot đang uống trà sữa','Khủng long đội mũ phi hành gia','Chú mèo đạp xe đạp','Ngôi nhà trên cây có wifi','Thầy giáo siêu nhân'];
+const PIX=[
+ {n:'Trái tim',g:['........','.rr..rr.','rrrrrrrr','rrrrrrrr','.rrrrrr.','..rrrr..','...rr...','........']},
+ {n:'Chú robot',g:['...yy...','..bbbb..','.bkbbkb.','.bbbbbb.','.brrrrb.','.bbbbbb.','..b..b..','.kk..kk.']},
+ {n:'Chú mèo',g:['.y....y.','.yy..yy.','.yyyyyy.','.ykyyky.','.yyrryy.','.yyyyyy.','..yyyy..','..y..y..']},
+ {n:'Cái cây',g:['...gg...','..gggg..','.gggggg.','gggggggg','.gggggg.','...kk...','...kk...','...kk...']},
+ {n:'Mặt cười',g:['..yyyy..','.yyyyyy.','yykyykyy','yyyyyyyy','ykyyyyky','yykkkkyy','.yyyyyy.','..yyyy..']}];
 const FIX=[
- {c:'for i in range(5)\n    print("Xin chào", i)',a:'Thiếu dấu hai chấm “:” ở cuối dòng for.'},
- {c:'name = "Mai"\nprint("Chào " + nme)',a:'Gõ sai tên biến: phải là name, không phải nme.'},
- {c:'x = 3\nwhile x > 0:\n    print(x)',a:'Vòng lặp chạy mãi vì thiếu dòng x = x - 1 trong vòng lặp.'}];
+ {g:'Chú mèo cần vẽ một hình vuông.',b:[['Khi bấm cờ xanh','ev'],['đặt bút xuống','pe'],['lặp lại 3 lần','ct'],['>đi 100 bước','mo'],['>xoay phải 90 độ','mo']],bug:2,o:['lặp lại 4 lần','lặp lại 5 lần','lặp lại 2 lần'],x:'Hình vuông có 4 cạnh nên phải lặp lại 4 lần.'},
+ {g:'Bấm phím mũi tên TRÁI thì nhân vật đi sang trái.',b:[['Khi bấm phím mũi tên trái','ev'],['thay đổi x thêm 10','mo']],bug:1,o:['thay đổi x thêm -10','thay đổi y thêm 10','đặt x thành 10'],x:'x tăng là đi sang phải. Muốn sang trái thì x phải giảm (thêm số âm).'},
+ {g:'Mỗi lần chạm vào quả táo, điểm tăng thêm 1.',b:[['Khi bấm cờ xanh','ev'],['đặt điểm thành 0','va'],['lặp mãi mãi','ct'],['>nếu chạm vào Táo thì','ct'],['>>đặt điểm thành 1','va']],bug:4,o:['thay đổi điểm thêm 1','đặt điểm thành 0','thay đổi điểm thêm 10'],x:'“Đặt thành 1” làm điểm luôn bằng 1. Phải “thay đổi thêm 1” thì điểm mới cộng dồn.'},
+ {g:'Nhân vật nói “Xin chào!” rồi mới biến mất.',b:[['Khi bấm cờ xanh','ev'],['ẩn','lk'],['nói “Xin chào!” trong 2 giây','lk']],bug:1,o:['Chuyển khối này xuống cuối','Xoá khối này','Đổi thành “hiện”'],x:'Máy chạy lệnh từ trên xuống. Phải nói trước rồi mới ẩn.'},
+ {g:'Quả bóng nảy qua lại mãi mãi, không bao giờ dừng.',b:[['Khi bấm cờ xanh','ev'],['lặp lại 10 lần','ct'],['>đi 5 bước','mo'],['>nếu chạm cạnh thì bật lại','mo']],bug:1,o:['lặp mãi mãi','lặp lại 100 lần','chờ 1 giây'],x:'“Lặp lại 10 lần” sẽ dừng sau 10 lần. Muốn chạy mãi phải dùng “lặp mãi mãi”.'},
+ {g:'Nhân vật chỉ nói “Chạm rồi!” khi con trỏ chuột chạm vào nó.',b:[['Khi bấm cờ xanh','ev'],['lặp mãi mãi','ct'],['>nói “Chạm rồi!”','lk']],bug:2,o:['Đặt vào trong khối “nếu chạm con trỏ chuột thì”','Xoá khối này','Đổi thành “nghĩ Chạm rồi!”'],x:'Cần khối “nếu… thì” để nhân vật chỉ nói khi điều kiện đúng.'}];
 const PR=[
- {t:'Một chú rồng xanh đội mũ đỏ đang đọc sách trên đỉnh núi lúc hoàng hôn.',k:['Nhân vật: rồng','Màu: xanh','Phụ kiện: mũ đỏ','Hành động: đọc sách','Địa điểm: đỉnh núi','Thời gian: hoàng hôn']},
- {t:'Hai chú mèo vàng mặc áo mưa đang chơi cờ vua trong thư viện vào ban đêm.',k:['Nhân vật: mèo','Số lượng: hai chú','Màu: vàng','Phụ kiện: áo mưa','Hành động: chơi cờ vua','Địa điểm + thời gian: thư viện, ban đêm']}];
+ {t:'Một chú rồng xanh đội mũ đỏ đang đọc sách trên đỉnh núi lúc hoàng hôn.',k:[
+  {l:'Nhân vật: rồng',w:[['rong','dragon']]},{l:'Màu: xanh',w:[['xanh','green','blue']]},{l:'Phụ kiện: mũ đỏ',w:[['mu','non','hat'],['do','red']]},
+  {l:'Hành động: đọc sách',w:[['doc','read','reading'],['sach','book']]},{l:'Địa điểm: đỉnh núi',w:[['nui','mountain']]},{l:'Thời gian: hoàng hôn',w:[['hoang hon','chieu ta','sunset']]}]},
+ {t:'Hai chú mèo vàng mặc áo mưa đang chơi cờ vua trong thư viện vào ban đêm.',k:[
+  {l:'Nhân vật: mèo',w:[['meo','cat','cats']]},{l:'Số lượng: hai chú',w:[['hai','2','two']]},{l:'Màu: vàng',w:[['vang','yellow']]},
+  {l:'Phụ kiện: áo mưa',w:[['ao mua','raincoat','raincoats']]},{l:'Hành động: chơi cờ vua',w:[['co vua','chess']]},{l:'Địa điểm + thời gian: thư viện, ban đêm',w:[['thu vien','library'],['dem','toi','night']]}]}];
 const LG=[
- {q:'An, Bình, Chi xếp hàng. An không đứng đầu. Bình đứng sau Chi. Ai đứng đầu hàng?',a:'Chi. Bình đứng sau Chi nên Bình không đứng đầu, An cũng không, nên chỉ còn Chi.'},
- {q:'Dãy số: 2, 4, 8, 16, ?  Số tiếp theo là gì và quy luật là gì?',a:'32. Mỗi số gấp đôi số đứng trước.'},
- {q:'Ba hộp dán nhãn “Táo”, “Cam”, “Táo và Cam”, nhưng cả ba nhãn đều dán sai. Lấy một quả từ hộp “Táo và Cam” ra được quả táo. Hộp đó chứa gì?',a:'Chỉ có táo. Vì nhãn sai nên hộp này không thể chứa cả hai loại.'}];
+ {q:'An, Bình, Chi xếp hàng. An không đứng đầu. Bình đứng sau Chi. Ai đứng đầu hàng?',o:['An','Bình','Chi'],c:2,a:'Chi. Bình đứng sau Chi nên Bình không đứng đầu, An cũng không, nên chỉ còn Chi.'},
+ {q:'Dãy số: 2, 4, 8, 16, ? Số tiếp theo là gì?',o:['20','24','32','64'],c:2,a:'32. Mỗi số gấp đôi số đứng trước.'},
+ {q:'Ba hộp dán nhãn “Táo”, “Cam”, “Táo và Cam”, nhưng cả ba nhãn đều sai. Lấy một quả từ hộp “Táo và Cam” ra được quả táo. Hộp đó chứa gì?',o:['Chỉ có táo','Chỉ có cam','Cả táo và cam'],c:0,a:'Chỉ có táo. Vì nhãn sai nên hộp này không thể chứa cả hai loại.'},
+ {q:'Nếu hôm qua là thứ Hai thì ngày mai là thứ mấy?',o:['Thứ Ba','Thứ Tư','Thứ Năm'],c:1,a:'Hôm qua thứ Hai, hôm nay thứ Ba, nên ngày mai là thứ Tư.'},
+ {q:'Robot đi 3 bước lên, 2 bước sang phải, rồi 3 bước xuống. Robot cách chỗ xuất phát mấy bước?',o:['2 bước','3 bước','8 bước'],c:0,a:'Lên 3 rồi xuống 3 là về hàng cũ, chỉ còn lệch 2 bước sang phải.'},
+ {q:'Có 5 con chim đậu trên cành. Em chụp một tấm ảnh, sau đó 2 con bay đi. Trong ảnh có mấy con chim?',o:['3 con','5 con','2 con'],c:1,a:'Ảnh được chụp trước khi chim bay đi, nên trong ảnh vẫn có 5 con.'}];
 // =====================================================================
 
 const $=s=>document.querySelector(s),app=$('#app'),hud=$('#hud');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
 let SCREEN='',TIMERS=[];
 function clearTimers(){TIMERS.forEach(t=>{clearTimeout(t);clearInterval(t)});TIMERS=[]}
 function show(html,name){clearTimers();SCREEN=name||'';app.innerHTML=html;window.scrollTo(0,0)}
@@ -117,58 +159,148 @@ function bindOpt(id,fn){const box=$('#'+id);box.onclick=e=>{const b=e.target.clo
 function beep(){try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.type='square';o.frequency.value=660;o.connect(a.destination);o.start();setTimeout(()=>o.stop(),350)}catch(e){}}
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const COL=['#ff6b8a','#59b8ff','#f2c94c','#5ef2a0','#ff9f5a','#c59bff'];
-
-// ===== TRẠNG THÁI =====
-const S={trainer:'Thầy/Cô',names:['Minh','An','Bảo','Chi','Dũng','Hà'],players:[],res:{},pk:{},lv:4,rot:0,mins:4,done:{},trick:{},rk:'type',re:{}};
-function buildPlayers(){S.players=[{n:S.trainer||'Thầy/Cô',t:1},...S.names.map(n=>({n}))]}
-buildPlayers();
-const pn=i=>{const p=S.players[i];return p?(p.t?'🎓 ':'')+p.n:'?'};
-
-// ===== CÁC VÒNG THI =====
-function cyc(key,len,elId,btn,fn){const el=$('#'+elId);$('#'+btn).onclick=()=>{S.pk[key]=((S.pk[key]||0)+1)%len;fn(el,S.pk[key])}}
-function reveal(){$('#rv').onclick=()=>{$('#ra').hidden=!$('#ra').hidden}}
-const ROUNDS=[
- {k:'type',ic:'⌨️',name:'Gõ phím thần tốc',area:'Gõ phím',sec:45,unit:'số từ gõ đúng',better:'high',
-  desc:'Cả lớp gõ lại câu bên dưới nhanh và chính xác nhất có thể. Thầy cô cũng gõ cùng các em!',
-  body:()=>`<div class="card"><div class="prompt" id="tx" style="font-size:30px">${esc(TYP[S.pk.type||0])}</div><div class="btns"><button class="ghost" id="nx">Câu khác</button></div></div>`,
-  bind:()=>cyc('type',TYP.length,'tx','nx',(e,i)=>e.textContent=TYP[i])},
- {k:'draw',ic:'🎨',name:'Vẽ trong 60 giây',area:'Vẽ nhanh',sec:60,unit:'điểm (1–10)',better:'high',
-  desc:'Vẽ đề bài trong 60 giây, bằng giấy bút hoặc phần mềm vẽ. Cả lớp bình chọn bức tranh dễ nhận ra nhất.',
-  body:()=>`<div class="card"><div class="prompt" id="tx" style="font-size:30px">${esc(DRAW[S.pk.draw||0])}</div><div class="btns"><button class="ghost" id="nx">Đề khác</button></div></div>`,
-  bind:()=>cyc('draw',DRAW.length,'tx','nx',(e,i)=>e.textContent=DRAW[i])},
- {k:'mem',ic:'🧠',name:'Siêu trí nhớ',area:'Trí nhớ',sec:0,unit:'số biểu tượng nhớ đúng',better:'high',
-  desc:'Nhìn dãy biểu tượng, che lại, rồi viết ra đúng thứ tự. Tăng dần độ dài dãy để tìm ra người nhớ giỏi nhất.',
-  body:()=>`<div class="card"><div class="big" id="mm" style="font-size:56px;min-height:1.4em">Sẵn sàng?</div><p class="mut" style="text-align:center">Độ dài dãy: <b id="lv">${S.lv}</b></p><div class="btns" style="justify-content:center"><button id="mShow">Hiện dãy</button><button class="ghost" id="mAns">Hiện đáp án</button><button class="ghost" id="mUp">Dài hơn +1</button><button class="ghost" id="mDn">Ngắn hơn −1</button></div></div>`,
-  bind:()=>{let seq=[];const mm=$('#mm'),lv=$('#lv'),P=['🍎','🚀','🐱','⚽','🎲','🌈','🎧','🦖','🍕','🔑','🧩','⭐','🎸','🐳'];
-   $('#mShow').onclick=()=>{seq=shuffle(P).slice(0,S.lv);mm.textContent=seq.join(' ');TIMERS.push(setTimeout(()=>{mm.textContent=seq.map(()=>'❓').join(' ')},S.lv*900+1500))};
-   $('#mAns').onclick=()=>{mm.textContent=seq.length?seq.join(' '):'Chưa có dãy'};
-   $('#mUp').onclick=()=>{S.lv=Math.min(14,S.lv+1);lv.textContent=S.lv};$('#mDn').onclick=()=>{S.lv=Math.max(3,S.lv-1);lv.textContent=S.lv}}},
- {k:'fix',ic:'🛠️',name:'Scoolcode sửa lỗi nhanh',area:'Sửa lỗi code',sec:90,unit:'giây hoàn thành',better:'low',
-  desc:'Tìm và sửa lỗi trong đoạn code. Ai sửa đúng nhanh nhất thắng. Có thể thay bằng bài Scoolcode thật của lớp.',
-  body:()=>{const f=FIX[S.pk.fix||0];return `<div class="card"><pre class="code" id="tx">${esc(f.c)}</pre><div class="btns"><button class="ghost" id="nx">Đoạn khác</button><button class="sky" id="rv">Hiện đáp án</button></div><div class="ans" id="ra" hidden>${esc(f.a)}</div></div>`},
-  bind:()=>{cyc('fix',FIX.length,'tx','nx',(e,i)=>{e.textContent=FIX[i].c;$('#ra').textContent=FIX[i].a;$('#ra').hidden=true});reveal()}},
- {k:'prompt',ic:'💬',name:'Thử thách prompt',area:'Ra lệnh cho AI',sec:60,unit:'số chi tiết đúng',better:'high',
-  desc:'Xem cảnh mẫu vài giây rồi viết prompt để AI vẽ lại thật giống. Thầy cô tích các chi tiết mà prompt có nhắc tới.',
-  body:()=>{const p=PR[S.pk.prompt||0];return `<div class="card"><div class="prompt" id="tx" style="font-size:28px">${esc(p.t)}</div><div class="btns"><button class="sky" id="hide">Che cảnh mẫu</button><button class="ghost" id="nx">Cảnh khác</button></div>
-   <h3>Chi tiết được chấm</h3><div id="kk">${p.k.map(x=>`<p style="margin:2px 0"><label><input type="checkbox"> ${esc(x)}</label></p>`).join('')}</div></div>`},
-  bind:()=>{const tx=$('#tx'),kk=$('#kk'),cnt=()=>{const n=kk.querySelectorAll('input:checked').length;$('#val').value=n};
-   kk.onchange=cnt;$('#hide').onclick=()=>{tx.dataset.t=tx.textContent;tx.textContent='🙈 Cảnh mẫu đã được che. Hãy viết prompt!'};
-   cyc('prompt',PR.length,'tx','nx',(e,i)=>{e.textContent=PR[i].t;kk.innerHTML=PR[i].k.map(x=>`<p style="margin:2px 0"><label><input type="checkbox"> ${esc(x)}</label></p>`).join('')})}},
- {k:'logic',ic:'🧩',name:'Đố logic',area:'Logic',sec:0,unit:'số câu đúng',better:'high',
-  desc:'Giải câu đố logic. Ai trả lời đúng và giải thích được cách nghĩ thì ghi điểm.',
-  body:()=>{const l=LG[S.pk.logic||0];return `<div class="card"><div class="prompt" id="tx" style="font-size:26px">${esc(l.q)}</div><div class="btns"><button class="ghost" id="nx">Câu khác</button><button class="sky" id="rv">Hiện đáp án</button></div><div class="ans" id="ra" hidden>${esc(l.a)}</div></div>`},
-  bind:()=>{cyc('logic',LG.length,'tx','nx',(e,i)=>{e.textContent=LG[i].q;$('#ra').textContent=LG[i].a;$('#ra').hidden=true});reveal()}}
-];
-const champ=r=>{const x=S.res[r.k];return x&&x.w!==undefined?x:null};
-
+const shake=el=>{if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')};
+// ===== TIẾNG VIỆT: so sánh có dấu / không dấu, chấp nhận cả hai kiểu bỏ dấu (hoà / hòa) =====
+const TONES=/[̣̀́̃̉]/g;
+const plain=w=>w.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[đĐ]/g,'d').toLowerCase();
+const vnKey=w=>{const d=w.normalize('NFD').toLowerCase();return d.replace(TONES,'').normalize('NFC')+'|'+(d.match(TONES)||[]).sort().join('')};
+const cleanW=w=>w.replace(/[.,!?;:“”"'()…\-–]/g,'');
+const sameWord=(a,b)=>{a=cleanW(a);b=cleanW(b);return a!==''&&(S.acc?vnKey(a)===vnKey(b):plain(a)===plain(b))};
+const hasWord=(text,w)=>(' '+plain(text).replace(/[^a-z0-9]+/g,' ')+' ').includes(' '+plain(w)+' ');
 // ===== ĐỒNG HỒ =====
+function clock(sec,el,onEnd){const o={left:sec,iv:null};const draw=()=>{if(el&&el.isConnected)el.textContent=fmt(o.left)};
+ o.stop=()=>{clearInterval(o.iv);o.iv=null};o.start=()=>{if(o.iv)return;o.iv=setInterval(()=>{o.left--;draw();if(o.left<=0){o.stop();beep();onEnd&&onEnd()}},1000);TIMERS.push(o.iv)};draw();return o}
 function timer(sec){return `<div class="card" style="text-align:center"><div class="big" id="tm">${fmt(sec)}</div><div class="btns" style="justify-content:center"><button id="tGo">▶ Bắt đầu</button><button class="ghost" id="tRs">↺ Đặt lại</button></div></div>`}
 function bindTimer(sec){let left=sec,iv=null;const d=$('#tm'),draw=()=>{d.textContent=fmt(left)};
  $('#tGo').onclick=()=>{if(iv)return;if(left<=0)left=sec;iv=setInterval(()=>{left--;draw();if(left<=0){clearInterval(iv);iv=null;beep();d.textContent='HẾT GIỜ!'}},1000);TIMERS.push(iv)};
  $('#tRs').onclick=()=>{clearInterval(iv);iv=null;left=sec;draw()}}
+const done=(id,html)=>{const el=$('#'+id);if(el)el.innerHTML=`<div class="res pop">${html}<br><span class="mut" style="font-size:18px">Báo kết quả này cho thầy cô nhé!</span></div>`};
+
+// ===== TRẠNG THÁI =====
+const S={trainer:'Thầy/Cô',names:['Minh','An','Bảo','Chi','Dũng','Hà'],players:[],res:{},pk:{},rot:0,mins:4,done:{},trick:{},rk:'type',re:{},acc:false};
+function buildPlayers(){S.players=[{n:S.trainer||'Thầy/Cô',t:1},...S.names.map(n=>({n}))]}
+buildPlayers();
+const pn=i=>{const p=S.players[i];return p?(p.t?'🎓 ':'')+p.n:'?'};
+
+// ===== VÒNG 1: GÕ PHÍM =====
+function typeBody(r){return `<div class="card"><p style="margin:0">Chấm điểm:</p><div class="opt" id="oAcc">${optBtns([[0,'Bỏ qua dấu (máy chưa cài bộ gõ tiếng Việt)'],[1,'Chấm cả dấu']],S.acc?1:0)}</div>
+ <div class="ttgt" id="tgt"></div>
+ <textarea class="tin" id="tin" spellcheck="false" autocomplete="off" placeholder="Bấm vào đây và gõ lại đoạn trên. Đồng hồ chạy khi em gõ chữ đầu tiên."></textarea>
+ <div class="stat"><span class="clk" id="tt">${fmt(r.sec)}</span><span>✔ <b id="tw">0</b> từ đúng</span><span>🎯 Độ chính xác <b id="ta">100%</b></span><button class="ghost" id="tRe">↺ Làm lại</button></div><div id="tRes"></div></div>`}
+function typeBind(r){const tg=$('#tgt'),ti=$('#tin');let words,c,ended;
+ const render=fin=>{const v=ti.value,parts=v.split(/\s+/).filter(Boolean),n=fin||/\s$/.test(v)?parts.length:Math.max(0,parts.length-1);let ok=0;
+  tg.innerHTML=words.map((w,i)=>{let cl='';if(i<n){const g=sameWord(parts[i],w);if(g)ok++;cl=g?'wk':'wx'}else if(i===n&&!fin)cl='wc';return`<span class="${cl}">${esc(w)}</span>`}).join(' ');
+  $('#tw').textContent=ok;$('#ta').textContent=n?Math.round(ok/n*100)+'%':'100%';
+  const cur=tg.querySelector('.wc');if(cur)tg.scrollTop=Math.max(0,cur.offsetTop-60);
+  if(!fin&&n>=words.length)finish();return ok};
+ const finish=()=>{if(ended)return;ended=true;c.stop();ti.disabled=true;const ok=render(true);done('tRes',(c.left>0?`🏁 Em đã gõ hết đoạn văn, còn dư <b>${c.left}</b> giây!`:'⏱ Hết giờ!')+` Em gõ đúng <b>${ok}</b> từ.`)};
+ const reset=()=>{words=[...shuffle(TYP),...shuffle(TYP)].join(' ').split(/\s+/);ended=false;ti.disabled=false;ti.value='';$('#tRes').innerHTML='';if(c)c.stop();c=clock(r.sec,$('#tt'),finish);render();ti.focus()};
+ ti.oninput=()=>{if(ended)return;if(!c.iv&&ti.value.trim())c.start();render()};
+ ti.onpaste=ti.ondrop=e=>e.preventDefault();
+ bindOpt('oAcc',v=>{S.acc=v==='1';if(!ended)render();else render(true)});$('#tRe').onclick=reset;reset()}
+
+// ===== VÒNG 2: HOẠ SĨ PIXEL =====
+const PC={'.':'#ffffff',k:'#1a1033',r:'#e5383b',y:'#f5d33f',b:'#3a7bd5',g:'#43b04a'},PN={k:'Đen',r:'Đỏ',y:'Vàng',b:'Xanh dương',g:'Xanh lá','.':'Tẩy'};
+function pixBody(r){const t=PIX[S.pk.draw||0];return `<div class="card"><div class="pwrap">
+ <div><h3 style="text-align:center">Tranh mẫu: <span id="pName">${esc(t.n)}</span></h3><div class="pgrid" id="pT"></div><div class="btns" style="justify-content:center"><button class="ghost" id="pNx">Tranh khác</button></div></div>
+ <div><h3 style="text-align:center">Tranh của em</h3><div class="pgrid" id="pD"></div>
+ <div class="pal" id="pPal">${Object.keys(PN).filter(k=>k!=='.').concat('.').map(k=>`<button data-c="${k}" title="${PN[k]}" style="background:${PC[k]}">${k==='.'?'⌫':''}</button>`).join('')}</div></div></div>
+ <div class="stat" style="justify-content:center"><span class="clk" id="pt">${fmt(r.sec)}</span><button id="pGo">▶ Bắt đầu vẽ</button><button class="ghost" id="pEnd" disabled>Nộp bài</button><button class="ghost" id="pRe">↺ Làm lại</button></div><div id="pRes"></div></div>`}
+function pixBind(r){let cur='k',grid,c,run=false,ended=false,down=false;const T=()=>PIX[S.pk.draw||0].g.join('');
+ const fill=(el,str)=>{el.innerHTML=[...str].map((ch,i)=>`<div data-i="${i}" style="background:${PC[ch]||'#fff'}"></div>`).join('')};
+ const D=$('#pD'),pal=$('#pPal');
+ const reset=()=>{grid=Array(64).fill('.');run=false;ended=false;fill($('#pT'),T());fill(D,grid.join(''));D.classList.remove('live');if(c)c.stop();c=clock(r.sec,$('#pt'),finish);$('#pRes').innerHTML='';$('#pGo').disabled=false;$('#pEnd').disabled=true;$('#pNx').disabled=false};
+ const paint=el=>{if(!run||!el||el.dataset.i===undefined||el.parentNode!==D)return;grid[+el.dataset.i]=cur;el.style.background=PC[cur]};
+ D.onpointerdown=e=>{down=true;paint(e.target);e.preventDefault()};
+ D.onpointermove=e=>{if(down)paint(document.elementFromPoint(e.clientX,e.clientY))};
+ addEventListener('pointerup',()=>down=false);
+ pal.onclick=e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.c;pal.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))};pal.querySelector('button').classList.add('on');
+ function finish(){if(ended||!run)return;ended=true;run=false;c.stop();D.classList.remove('live');$('#pEnd').disabled=true;
+  const t=T();let need=0,good=0,bad=0;for(let i=0;i<64;i++){if(t[i]!=='.'){need++;if(grid[i]===t[i])good++}if(grid[i]!=='.'&&grid[i]!==t[i])bad++}
+  const sc=Math.max(0,good-bad);done('pRes',`Em tô đúng <b>${good}/${need}</b> ô${bad?`, tô sai hoặc tô thừa <b>${bad}</b> ô`:''}. Điểm: <b>${sc}</b>`)}
+ $('#pGo').onclick=()=>{if(run||ended)return;run=true;D.classList.add('live');c.start();$('#pGo').disabled=true;$('#pEnd').disabled=false;$('#pNx').disabled=true};
+ $('#pEnd').onclick=finish;$('#pRe').onclick=reset;
+ $('#pNx').onclick=()=>{S.pk.draw=((S.pk.draw||0)+1)%PIX.length;$('#pName').textContent=PIX[S.pk.draw].n;reset()};reset()}
+
+// ===== VÒNG 3: SIÊU TRÍ NHỚ =====
+const MP=['🍎','🚀','🐱','⚽','🌈','🎧','🦖','🍕','⭐'];
+function memBody(){return `<div class="card"><div class="mseq" id="mm">Sẵn sàng?</div><div class="mslots" id="mS"></div>
+ <div class="mpal" id="mP">${MP.map(x=>`<button data-m="${x}" disabled>${x}</button>`).join('')}</div>
+ <div class="stat" style="justify-content:center"><span>Độ dài dãy: <b id="mN">3</b></span><span>🏆 Kỷ lục của em: <b id="mB">0</b></span><button id="mGo">▶ Bắt đầu</button><button class="ghost" id="mUn">⌫ Xoá biểu tượng vừa chọn</button></div>
+ <p class="mut" style="text-align:center" id="mMsg">Nhìn thật kỹ dãy biểu tượng. Khi dãy bị che, bấm chọn lại đúng thứ tự.</p><div id="mRes"></div></div>`}
+function memBind(){let n=3,best=0,seq=[],inp=[],phase='idle';const mm=$('#mm'),pal=[...document.querySelectorAll('#mP button')];
+ const slots=()=>{$('#mS').innerHTML=phase==='input'||phase==='check'?seq.map((_,i)=>`<span>${inp[i]||''}</span>`).join(''):''};
+ const lock=v=>pal.forEach(b=>b.disabled=v);
+ const round=()=>{phase='show';inp=[];seq=[];while(seq.length<n){const x=rnd(MP);if(x!==seq[seq.length-1])seq.push(x)}$('#mN').textContent=n;mm.textContent=seq.join(' ');lock(true);slots();$('#mGo').disabled=true;$('#mMsg').textContent='Nhớ thật kỹ...';
+  TIMERS.push(setTimeout(()=>{if(phase!=='show')return;phase='input';mm.textContent='❓'.repeat(n);lock(false);slots();$('#mMsg').textContent='Bấm chọn lại đúng thứ tự!'},n*800+1200))};
+ pal.forEach(b=>b.onclick=()=>{if(phase!=='input')return;inp.push(b.dataset.m);slots();if(inp.length<n)return;phase='check';lock(true);
+  if(seq.every((x,i)=>x===inp[i])){best=n;$('#mB').textContent=best;$('#mMsg').innerHTML='<b class="good">Chính xác!</b> Dãy tiếp theo dài hơn 1 biểu tượng.';n++;TIMERS.push(setTimeout(round,1300))}
+  else{phase='end';mm.textContent=seq.join(' ');$('#mMsg').textContent='Chưa đúng rồi. Dãy đúng là dãy ở trên.';$('#mGo').disabled=false;$('#mGo').textContent='↺ Chơi lại';done('mRes',`🏆 Kỷ lục của em: nhớ đúng <b>${best}</b> biểu tượng.`)}});
+ $('#mUn').onclick=()=>{if(phase==='input'&&inp.length){inp.pop();slots()}};
+ $('#mGo').onclick=()=>{if(phase==='end'||phase==='idle'){n=3;best=0;$('#mB').textContent=0;$('#mRes').innerHTML='';round()}}}
+
+// ===== VÒNG 4: BẮT LỖI SCOOLCODE =====
+const BC={ev:'#e6a700',mo:'#4c97ff',ct:'#ffab19',lk:'#9966ff',va:'#ff8c1a',pe:'#0fbd8c'};
+function fixBody(r){return `<div class="card"><div class="stat"><span class="clk" id="fT">${fmt(r.sec)}</span><span>✔ Đã sửa: <b id="fN">0</b>/${FIX.length}</span><button id="fGo">▶ Bắt đầu</button></div>
+ <div id="fBox"><p class="mut">Mỗi bài có một khối bị sai. Bấm vào khối sai, rồi chọn cách sửa đúng. Sửa được càng nhiều bài trong ${r.sec} giây càng tốt!</p></div><div id="fRes"></div></div>`}
+function fixBind(r){let i=0,ok=0,c=null,ended=false,order=[],p=null;const box=$('#fBox');
+ const finish=()=>{if(ended)return;ended=true;c.stop();box.querySelectorAll('button').forEach(b=>b.disabled=true);done('fRes',`Em sửa đúng <b>${ok}</b> lỗi${ok===FIX.length?` và còn dư <b>${c.left}</b> giây`:''}.`)};
+ const showP=()=>{if(i>=order.length){finish();return}p=FIX[order[i]];
+  box.innerHTML=`<div class="tag">BÀI ${i+1}/${order.length}</div><div class="goal">🎯 Mục tiêu: ${esc(p.g)}</div>
+  <div class="script">${p.b.map(([t,k],j)=>{const ind=(t.match(/^>+/)||[''])[0].length;return`<button class="blk ${k==='ev'?'ev':''}" data-b="${j}" style="background:${BC[k]};margin-left:${ind*34}px">${esc(t.replace(/^>+/,''))}</button>`}).join('')}</div>
+  <p id="fMsg" style="font-size:21px">Khối nào làm chương trình chạy sai? Bấm vào khối đó.</p><div class="btns fixopt" id="fOpt"></div>`;
+  box.querySelectorAll('.blk').forEach(b=>b.onclick=()=>{if(ended)return;const j=+b.dataset.b;
+   if(j!==p.bug){shake(b);$('#fMsg').textContent='Khối này không có lỗi. Tìm tiếp nhé!';return}
+   box.querySelectorAll('.blk').forEach(x=>x.classList.toggle('sel',x===b));$('#fMsg').innerHTML='<b>Đúng là khối này!</b> Bây giờ chọn cách sửa:';
+   $('#fOpt').innerHTML=shuffle(p.o.map((t,k)=>[t,k])).map(([t,k])=>`<button class="ghost" data-o="${k}">${esc(t)}</button>`).join('');
+   $('#fOpt').querySelectorAll('button').forEach(o=>o.onclick=()=>{if(ended)return;if(o.dataset.o!=='0'){shake(o);$('#fMsg').textContent='Cách này chưa sửa được lỗi. Thử cách khác!';return}
+    ok++;$('#fN').textContent=ok;box.querySelectorAll('button').forEach(x=>x.disabled=true);o.classList.add('picked');o.style.background='var(--ok)';o.style.color='#1a1033';$('#fMsg').innerHTML='<b class="good">Chính xác!</b> '+esc(p.x);
+    TIMERS.push(setTimeout(()=>{if(!ended){i++;showP()}},1800))})})};
+ $('#fGo').onclick=()=>{if(c&&c.iv)return;i=0;ok=0;ended=false;$('#fN').textContent=0;$('#fRes').innerHTML='';order=shuffle(FIX.map((_,k)=>k));if(c)c.stop();c=clock(r.sec,$('#fT'),finish);c.start();$('#fGo').textContent='↺ Làm lại';showP()}}
+
+// ===== VÒNG 5: THỬ THÁCH PROMPT =====
+function prBody(r){return `<div class="card"><div class="stat"><span class="clk" id="qT">${fmt(r.sec)}</span><button id="qGo">▶ Xem cảnh mẫu (10 giây)</button><button class="ghost" id="qNx">Cảnh khác</button></div>
+ <div id="qBox"><p class="mut">Em sẽ có 10 giây để đọc cảnh mẫu. Sau đó cảnh mẫu bị che, em có ${r.sec} giây để viết prompt cho AI vẽ lại thật giống.</p></div><div id="qRes"></div></div>`}
+function prBind(r){let c=null,ended=false;const box=$('#qBox'),P=()=>PR[S.pk.prompt||0];
+ const score=()=>{const n=box.querySelectorAll('#qK input:checked').length;$('#qS').textContent=n+'/'+P().k.length;return n};
+ const finish=()=>{if(ended)return;ended=true;if(c)c.stop();const ta=$('#qIn');ta.disabled=true;const txt=ta.value;
+  box.insertAdjacentHTML('beforeend',`<h3>Cảnh mẫu</h3><div class="prompt" style="font-size:24px">${esc(P().t)}</div><h3>Prompt của em có những chi tiết nào?</h3>
+  <div id="qK">${P().k.map(d=>{const hit=d.w.every(gr=>gr.some(w=>hasWord(txt,w)));return`<p style="margin:2px 0"><label><input type="checkbox" ${hit?'checked':''}> ${esc(d.l)}</label></p>`}).join('')}</div>
+  <p class="mut" style="font-size:17px">Máy tự tích theo từ khoá. Thầy cô có thể tích lại nếu em diễn đạt bằng từ khác.</p><div class="res">Điểm: <b id="qS"></b> chi tiết<br><span class="mut" style="font-size:18px">Báo kết quả này cho thầy cô nhé!</span></div>`);
+  $('#qK').onchange=score;score()};
+ $('#qNx').onclick=()=>{if(c&&c.iv)return;S.pk.prompt=((S.pk.prompt||0)+1)%PR.length;box.innerHTML='<p class="mut">Đã đổi cảnh mẫu. Bấm “Xem cảnh mẫu” để bắt đầu.</p>';$('#qRes').innerHTML=''};
+ $('#qGo').onclick=()=>{if(c&&c.iv)return;ended=false;$('#qGo').disabled=true;$('#qNx').disabled=true;let s=10;
+  box.innerHTML=`<div class="prompt" style="font-size:28px">${esc(P().t)}</div><p class="clk" id="qV" style="text-align:center">10</p>`;
+  const iv=setInterval(()=>{s--;const v=$('#qV');if(v)v.textContent=s;if(s<=0){clearInterval(iv);write()}},1000);TIMERS.push(iv)};
+ const write=()=>{box.innerHTML=`<p class="prompt" style="border-style:solid;font-size:22px">🙈 Cảnh mẫu đã được che. Hãy viết prompt để AI vẽ lại thật giống!</p>
+  <textarea class="tin" id="qIn" spellcheck="false" placeholder="Viết prompt của em ở đây..."></textarea><div class="btns"><button id="qEnd">Nộp prompt</button></div>`;
+  $('#qIn').onpaste=e=>e.preventDefault();$('#qIn').focus();$('#qEnd').onclick=finish;c=clock(r.sec,$('#qT'),finish);c.start();$('#qGo').disabled=false;$('#qNx').disabled=false;$('#qGo').textContent='↺ Làm lại'}}
+
+// ===== VÒNG 6: ĐỐ LOGIC =====
+function lgBody(r){return `<div class="card"><div class="stat"><span class="clk" id="lT">${fmt(r.sec)}</span><span>✔ Đúng: <b id="lN">0</b>/${LG.length}</span><button id="lGo">▶ Bắt đầu</button></div><div id="lBox"><p class="mut">Trả lời càng nhiều câu đúng trong ${r.sec} giây càng tốt. Mỗi câu chỉ được chọn một lần!</p></div><div id="lRes"></div></div>`}
+function lgBind(r){let i=0,ok=0,c=null,ended=false,order=[];const box=$('#lBox');
+ const finish=()=>{if(ended)return;ended=true;c.stop();box.querySelectorAll('button').forEach(b=>b.disabled=true);done('lRes',`Em trả lời đúng <b>${ok}/${LG.length}</b> câu.`)};
+ const showQ=()=>{if(i>=order.length){finish();return}const q=LG[order[i]];
+  box.innerHTML=`<div class="tag">CÂU ${i+1}/${order.length}</div><div class="prompt" style="border-style:solid;font-size:25px">${esc(q.q)}</div><div class="lgopt">${q.o.map((t,k)=>`<button class="ghost" data-k="${k}">${esc(t)}</button>`).join('')}</div><div id="lA"></div>`;
+  box.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{if(ended)return;const k=+b.dataset.k,right=k===q.c;if(right){ok++;$('#lN').textContent=ok}
+   box.querySelectorAll('[data-k]').forEach(x=>{x.disabled=true;if(+x.dataset.k===q.c)x.classList.add('right');else if(x===b)x.classList.add('wrong')});
+   $('#lA').innerHTML=`<div class="ans"><b class="${right?'good':'bad'}">${right?'Chính xác!':'Chưa đúng.'}</b> ${esc(q.a)}</div><div class="btns"><button id="lNx">${i<order.length-1?'Câu tiếp ▶':'Xem kết quả ▶'}</button></div>`;
+   $('#lNx').onclick=()=>{i++;showQ()}})};
+ $('#lGo').onclick=()=>{if(c&&c.iv)return;i=0;ok=0;ended=false;$('#lN').textContent=0;$('#lRes').innerHTML='';order=shuffle(LG.map((_,k)=>k));if(c)c.stop();c=clock(r.sec,$('#lT'),finish);c.start();$('#lGo').textContent='↺ Làm lại';showQ()}}
+
+// ===== CÁC VÒNG THI =====
+const ROUNDS=[
+ {k:'type',ic:'⌨️',name:'Gõ phím thần tốc',area:'Gõ phím',sec:45,unit:'số từ gõ đúng',better:'high',desc:'Gõ lại đoạn văn nhanh và chính xác nhất trong 45 giây. Từ đúng tô xanh, từ sai tô đỏ.',body:typeBody,bind:typeBind},
+ {k:'draw',ic:'🎨',name:'Hoạ sĩ pixel 60 giây',area:'Vẽ pixel',sec:60,unit:'điểm',better:'high',desc:'Tô lại tranh mẫu trên lưới 8×8 trong 60 giây. Máy tự chấm: mỗi ô tô đúng được 1 điểm, ô tô sai hoặc tô thừa bị trừ 1 điểm.',body:pixBody,bind:pixBind},
+ {k:'mem',ic:'🧠',name:'Siêu trí nhớ',area:'Trí nhớ',sec:0,unit:'số biểu tượng nhớ đúng',better:'high',desc:'Nhìn dãy biểu tượng, dãy bị che, rồi chọn lại đúng thứ tự. Mỗi lần đúng, dãy dài thêm 1. Sai một lần là dừng.',body:memBody,bind:memBind},
+ {k:'fix',ic:'🛠️',name:'Bắt lỗi Scoolcode',area:'Tìm lỗi chương trình',sec:90,unit:'số lỗi sửa đúng',better:'high',desc:'Mỗi chương trình (dạng khối giống Scoolcode) có một khối sai. Tìm khối sai và chọn cách sửa. Có thể thay bằng bài Scoolcode thật của lớp.',body:fixBody,bind:fixBind},
+ {k:'prompt',ic:'💬',name:'Thử thách prompt',area:'Ra lệnh cho AI',sec:60,unit:'số chi tiết đúng',better:'high',desc:'Đọc cảnh mẫu trong 10 giây, rồi viết prompt để AI vẽ lại thật giống. Máy tự tìm các chi tiết có trong prompt.',body:prBody,bind:prBind},
+ {k:'logic',ic:'🧩',name:'Đố logic',area:'Logic',sec:90,unit:'số câu đúng',better:'high',desc:'Trả lời các câu đố logic. Mỗi câu chỉ được chọn một lần, chọn xong sẽ thấy lời giải.',body:lgBody,bind:lgBind}
+];
+const champ=r=>{const x=S.res[r.k];return x&&x.w!==undefined?x:null};
 
 // ===== MÀN HÌNH =====
-const INTRO=[['🎓','Tuần này đảo vai: các em không chỉ học, các em sẽ trở thành người dẫn lối!'],['⚔️','Có sáu thử thách nhanh. Thầy cô và tất cả học sinh cùng thi đấu.'],['🏆','Ai thắng vòng nào sẽ làm mentor của kỹ năng đó. Thầy cô cũng có thể thua, và thua cũng là một cách học!'],['🧑‍🏫','Sau đó các nhà vô địch sẽ kèm cả lớp ở các góc mentor. Dạy lại cho người khác là cách học rất tốt.'],['🚀','Mở màn Skill Swap Arena nào!']];
+const INTRO=[['🎓','Tuần này đảo vai: các em không chỉ học, các em sẽ trở thành người dẫn lối!'],['⚔️','Có sáu thử thách nhanh. Thầy cô và tất cả học sinh cùng thi đấu, mỗi người trên máy của mình.'],['🏆','Ai thắng vòng nào sẽ làm mentor của kỹ năng đó. Thầy cô cũng có thể thua, và thua cũng là một cách học!'],['🧑‍🏫','Sau đó các nhà vô địch sẽ kèm cả lớp ở các góc mentor. Dạy lại cho người khác là cách học rất tốt.'],['🚀','Mở màn Skill Swap Arena nào!']];
 let IN=0;
 function intro(){IN=0;setHud('Giới thiệu');
  show(`<div class="card gold pop"><div class="stage"><div class="big bob" id="em"></div><div class="speech" id="cap"></div></div>
@@ -179,6 +311,7 @@ function line(){clearTimers();const[e,s]=INTRO[IN],el=$('#cap');$('#em').textCon
 function setup(){setHud('Chuẩn bị');
  show(`<div class="card gold pop"><div class="tag">CHUẨN BỊ · AI THAM GIA?</div><h2>Thầy cô và học sinh cùng thi đấu</h2>
  <p>Mỗi người là một thí sinh. Thầy cô cũng tham gia để các em có cơ hội trở thành mentor của chính thầy cô.</p>
+ <p class="mut">Chỉ máy của thầy cô (máy chiếu) cần nhập danh sách. Trên máy học sinh, có thể bỏ qua bước này và vào thẳng các vòng.</p>
  <div class="crow"><span>Tên thầy cô (🎓)</span><input type="text" id="tr" maxlength="24" value="${esc(S.trainer)}"></div>
  <h3>Học sinh (mỗi dòng một tên)</h3><textarea id="nm">${esc(S.names.join('\n'))}</textarea>
  <div class="btns"><button id="go">Vào đấu trường ▶</button></div></div>`,'setup');
@@ -187,7 +320,7 @@ function setup(){setHud('Chuẩn bị');
 function home(){setHud('Tech Club · Tuần 4');
  show(`<div class="card gold pop"><div class="tag">TECH CLUB · TUẦN 4 · BECOME THE MENTOR</div><h2>Hôm nay là người học, ngày mai là người dẫn lối</h2>
  <p>Ai cũng giỏi một điều gì đó. Khi dạy điều đó cho người khác, cả hai cùng giỏi hơn, thầy cô cũng vậy.</p></div>
- <div class="menu two"><button id="m1"><b>1 ⚔️ Vòng thử thách</b><span>Sáu thử thách nhanh: gõ phím, vẽ 60 giây, trí nhớ, sửa lỗi code, prompt, logic.</span></button>
+ <div class="menu two"><button id="m1"><b>1 ⚔️ Vòng thử thách</b><span>Sáu thử thách, mỗi em làm trên máy của mình và máy tự chấm: gõ phím, vẽ pixel, trí nhớ, bắt lỗi Scoolcode, prompt, logic.</span></button>
  <button id="m2" class="sky"><b>2 🏆 Nhà vô địch</b><span>Người thắng mỗi vòng trở thành mentor của kỹ năng đó.</span></button>
  <button id="m3"><b>3 🧑‍🏫 Góc mentor</b><span>Các nhà vô địch kèm cả lớp, xoay vòng giữa các góc.</span></button>
  <button id="m4" class="sky"><b>4 ✨ Show me what you learned</b><span>Mỗi em khoe một mẹo vừa học được. Còn thời gian thì đấu lại.</span></button></div>
@@ -195,20 +328,25 @@ function home(){setHud('Tech Club · Tuần 4');
  $('#m1').onclick=arena;$('#m2').onclick=champs;$('#m3').onclick=corners;$('#m4').onclick=learn;$('#m5').onclick=guide;$('#m6').onclick=setup;$('#m7').onclick=intro}
 
 function arena(){setHud('Vòng thử thách');
- show(`<div class="card gold pop"><div class="tag">PHẦN 1 · VÒNG THỬ THÁCH</div><h2>Chọn một thử thách</h2><p>Thầy cô và cả lớp thi đấu cùng nhau. Chơi theo thứ tự hoặc chọn vòng bất kỳ. Vòng đã có nhà vô địch được viền xanh.</p></div>
+ show(`<div class="card gold pop"><div class="tag">PHẦN 1 · VÒNG THỬ THÁCH</div><h2>Chọn một thử thách</h2><p>Thầy cô và cả lớp thi đấu cùng nhau, mỗi người trên máy của mình. Chơi theo thứ tự hoặc chọn vòng bất kỳ. Vòng đã có nhà vô địch được viền xanh.</p></div>
  <div class="menu">${ROUNDS.map((r,i)=>{const c=champ(r);return `<button data-i="${i}" class="${c?'done':'ghost'}"><b>${r.ic} ${i+1}. ${r.name}</b><span>${c?'🏆 '+esc(pn(c.w)):'Chưa có nhà vô địch'}</span></button>`}).join('')}</div>
  <div class="btns"><button id="toC">Xem nhà vô địch ▶</button><button class="ghost" id="back">Về màn hình chính</button></div>`,'arena');
  app.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>round(+b.dataset.i));$('#toC').onclick=champs;$('#back').onclick=home}
 
-function round(i){const r=ROUNDS[i],sv=S.res[r.k]||{};setHud(`Vòng ${i+1}/${ROUNDS.length} · ${r.name}`);
+function round(i){const r=ROUNDS[i],sv=S.res[r.k]||{},sc=sv.sc||{};setHud(`Vòng ${i+1}/${ROUNDS.length} · ${r.name}`);
  show(`<div class="card gold pop"><div class="tag">VÒNG ${i+1}/${ROUNDS.length} · KỸ NĂNG: ${esc(r.area)}</div><h2>${r.ic} ${r.name}</h2><p>${r.desc}</p></div>
- ${r.body()}${r.sec?timer(r.sec):''}
- <div class="card"><h3>Ghi nhận nhà vô địch</h3>
- <div class="crow"><span>Người thắng</span><select id="win"><option value="">Chọn người thắng</option>${S.players.map((p,j)=>`<option value="${j}" ${sv.w===j?'selected':''}>${esc(pn(j))}</option>`).join('')}</select></div>
- <div class="crow"><span>Kết quả (${r.unit})</span><input type="number" id="val" step="any" value="${sv.val===undefined?'':esc(sv.val)}"></div>
+ ${r.body(r)}
+ <div class="card"><h3>Ghi nhận kết quả (máy của thầy cô)</h3><p class="mut" style="font-size:17px">Mỗi em đọc kết quả trên máy của mình, thầy cô nhập vào bảng. Người có kết quả cao nhất được tự động chọn làm nhà vô địch. Nếu hoà, thầy cô chọn (ví dụ: ai xong trước).</p>
+ <table><tr><th>Thí sinh</th><th>Kết quả (${r.unit})</th></tr>${S.players.map((p,j)=>`<tr><td>${esc(pn(j))}</td><td><input type="number" step="any" data-s="${j}" value="${sc[j]??''}"></td></tr>`).join('')}</table>
+ <div class="crow"><span>Nhà vô địch</span><select id="win"><option value="">Chọn người thắng</option>${S.players.map((p,j)=>`<option value="${j}" ${sv.w===j?'selected':''}>${esc(pn(j))}</option>`).join('')}</select></div><p id="tie" style="color:#ffb86b"></p>
  <div class="btns"><button id="save">Lưu và về danh sách</button>${i>0?'<button class="ghost" id="prev">◀ Vòng trước</button>':''}${i<ROUNDS.length-1?'<button class="ghost" id="next">Vòng sau ▶</button>':''}</div></div>`,'round');
- r.bind&&r.bind();r.sec&&bindTimer(r.sec);
- const keep=()=>{const w=$('#win').value;if(w!=='')S.res[r.k]={w:+w,val:$('#val').value}};
+ r.bind(r);
+ const vals=()=>S.players.map((_,j)=>$(`[data-s="${j}"]`).value),
+  auto=()=>{const f=vals().map((x,j)=>[x===''?null:+x,j]).filter(a=>a[0]!==null);if(!f.length){$('#tie').textContent='';return}
+   const best=r.better==='low'?Math.min(...f.map(a=>a[0])):Math.max(...f.map(a=>a[0])),tops=f.filter(a=>a[0]===best).map(a=>a[1]);
+   if(tops.length===1){$('#win').value=tops[0];$('#tie').textContent=''}else $('#tie').textContent='Hoà giữa '+tops.map(pn).join(', ')+'. Thầy cô chọn nhà vô địch ở ô trên.'};
+ app.querySelectorAll('[data-s]').forEach(x=>x.oninput=auto);
+ const keep=()=>{const s={};vals().forEach((x,j)=>{if(x!=='')s[j]=x});const w=$('#win').value;if(w===''&&!Object.keys(s).length)return;S.res[r.k]={w:w===''?undefined:+w,val:w===''?'':(s[w]??''),sc:s}};
  $('#save').onclick=()=>{keep();arena()};if($('#prev'))$('#prev').onclick=()=>{keep();round(i-1)};if($('#next'))$('#next').onclick=()=>{keep();round(i+1)}}
 
 function crowns(){const c={};ROUNDS.forEach(r=>{const x=champ(r);if(x)c[x.w]=(c[x.w]||0)+1});return c}
@@ -247,8 +385,8 @@ function learn(){setHud('Show me what you learned');const kids=S.players.map((p,
 function rematch(){setHud('Rematch');const r=ROUNDS.find(x=>x.k===S.rk)||ROUNDS[0],R=S.re[r.k]||(S.re[r.k]={}),c=champ(r);
  show(`<div class="card gold pop"><div class="tag">REMATCH · NẾU CÒN THỜI GIAN</div><h2>${r.ic} ${r.name}: ai tiến bộ nhất?</h2>
  <p>Chơi lại cùng thử thách. Nhập kết quả lần đầu và lần đấu lại. Mũi tên cho biết ai đã tiến bộ (${r.better==='low'?'số càng nhỏ càng tốt':'số càng lớn càng tốt'}).</p>
- <div class="opt" id="oR">${optBtns(ROUNDS.filter(x=>x.k!=='mem'||true).map(x=>[x.k,x.ic+' '+x.name]),S.rk)}</div>
- <table><tr><th>Thí sinh</th><th>Lần 1</th><th>Rematch</th><th>Thay đổi</th></tr>${S.players.map((p,j)=>{const a=R[j]&&R[j].a!==undefined?R[j].a:(c&&c.w===j?c.val:'');return `<tr><td>${esc(pn(j))}</td><td><input type="number" step="any" data-a="${j}" value="${esc(a)}"></td><td><input type="number" step="any" data-b="${j}" value="${R[j]&&R[j].b!==undefined?esc(R[j].b):''}"></td><td id="d${j}"></td></tr>`}).join('')}</table>
+ <div class="opt" id="oR">${optBtns(ROUNDS.map(x=>[x.k,x.ic+' '+x.name]),S.rk)}</div>
+ <table><tr><th>Thí sinh</th><th>Lần 1</th><th>Rematch</th><th>Thay đổi</th></tr>${S.players.map((p,j)=>{const rs=S.res[r.k]&&S.res[r.k].sc,a=R[j]&&R[j].a!==undefined?R[j].a:(rs&&rs[j]!==undefined?rs[j]:'');return `<tr><td>${esc(pn(j))}</td><td><input type="number" step="any" data-a="${j}" value="${esc(a)}"></td><td><input type="number" step="any" data-b="${j}" value="${R[j]&&R[j].b!==undefined?esc(R[j].b):''}"></td><td id="d${j}"></td></tr>`}).join('')}</table>
  <div class="btns"><button class="sky" id="end">Tổng kết ▶</button><button class="ghost" id="back">Quay lại</button></div></div>`,'rematch');
  const calc=j=>{const a=$(`[data-a="${j}"]`).value,b=$(`[data-b="${j}"]`).value,d=$('#d'+j);R[j]={a,b};if(a===''||b===''){d.textContent='';return}const x=+b-+a,up=r.better==='low'?x<0:x>0;d.innerHTML=x===0?'= giữ nguyên':`<span class="${up?'good':'bad'}">${up?'▲ tiến bộ':'▼ chưa tốt hơn'} (${x>0?'+':''}${Math.round(x*100)/100})</span>`};
  S.players.forEach((p,j)=>calc(j));app.querySelectorAll('input[data-a],input[data-b]').forEach(i=>i.oninput=()=>calc(i.dataset.a??i.dataset.b));
@@ -266,10 +404,10 @@ function end(){setHud('Tổng kết');
 function guide(){const m=$('#modal');m.hidden=false;
  m.innerHTML=`<div class="card gold pop"><div class="tag">DÀNH CHO THẦY CÔ</div><h2>Hướng dẫn tổ chức Tech Club Tuần 4</h2>
  <p><b>Chủ đề tuần:</b> Become the mentor. Học sinh hiểu rằng ai cũng giỏi một điều gì đó, và dạy lại cho người khác giúp cả hai cùng giỏi hơn, thầy cô cũng vậy. Thông điệp chung của tháng: <i>“Người thầy giỏi không trao sẵn đáp án, mà giúp con tự tìm ra.”</i></p>
- <h3>Chuẩn bị</h3><ul><li>Mở file này trên máy chiếu. File chạy offline, không cần internet hay tài khoản.</li><li>Học sinh làm việc theo nhóm bạn đôi (một anh/chị lớn và một em nhỏ) để ai cũng tham gia được.</li><li>Chuẩn bị giấy bút cho vòng vẽ và vòng prompt. Vòng sửa lỗi có thể dùng bài Scoolcode thật.</li><li>Có thể chỉnh nội dung các vòng ở đầu phần script của file.</li></ul>
+ <h3>Chuẩn bị</h3><ul><li>Mở file này trên máy chiếu của thầy cô (để nhập danh sách, ghi kết quả, chạy góc mentor) và trên laptop của từng học sinh hoặc từng nhóm bạn đôi.</li><li>Mỗi vòng thử thách có đồng hồ và máy tự chấm trên từng laptop. Học sinh đọc kết quả của mình, thầy cô nhập vào bảng “Ghi nhận kết quả”; người cao nhất tự động thành nhà vô địch.</li><li>Vòng gõ phím: nếu máy học sinh chưa cài bộ gõ tiếng Việt (Unikey), chọn “Bỏ qua dấu” để chấm công bằng.</li><li>Vòng bắt lỗi dùng khối lệnh mô phỏng kiểu Scoolcode. Có thể thay bằng bài Scoolcode thật của lớp.</li><li>File chạy offline, không cần internet hay tài khoản. Có thể chỉnh nội dung các vòng ở đầu phần script của file.</li></ul>
  <h3>Gợi ý thời lượng (60 phút)</h3><table><tr><th>Phần</th><th>Thời lượng</th><th>Việc chính</th></tr>
  <tr><td>Mở đầu</td><td>5 phút</td><td>Giới thiệu và nhập danh sách thí sinh.</td></tr>
- <tr><td>1. Vòng thử thách</td><td>20 phút</td><td>Sáu vòng nhanh, thầy cô thi đấu cùng các em.</td></tr>
+ <tr><td>1. Vòng thử thách</td><td>20 phút</td><td>Sáu vòng nhanh, thầy cô thi đấu cùng các em, mỗi người trên máy của mình.</td></tr>
  <tr><td>2. Nhà vô địch</td><td>3 phút</td><td>Công bố mentor của từng kỹ năng.</td></tr>
  <tr><td>3. Góc mentor</td><td>15 phút</td><td>Ba lượt xoay góc, mỗi lượt 4 phút.</td></tr>
  <tr><td>4. Show me what you learned</td><td>12 phút</td><td>Mỗi em khoe một mẹo.</td></tr>
